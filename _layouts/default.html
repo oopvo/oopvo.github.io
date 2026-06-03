@@ -189,10 +189,10 @@
         // Available wallpapers (auto-discovered from the Wallpaper folder)
         var wallpapers = [
           {% for file in site.static_files %}
-          {% if file.path contains '/Wallpaper/' %}
+          {% if file.relative_path contains '/Wallpaper/' %}
           {
             name: '{{ file.basename }}',
-            path: '{{ file.path | relative_url }}',
+            path: '{{ file.relative_path | relative_url }}',
             ext: '{{ file.extname }}'
           },
           {% endif %}
