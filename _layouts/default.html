@@ -11,30 +11,23 @@
 
     <link rel="stylesheet" type="text/css" href="{{ site.baseurl }}/style.css" />
     <link rel="alternate" type="application/rss+xml" title="{{ site.name }} - {{ site.description }}" href="{{ site.baseurl }}/feed.xml" />
-
-    <!-- Created with Jekyll Now - http://github.com/barryclark/jekyll-now -->
   </head>
 
   <body>
     <!-- Background overlay for wallpaper support -->
     <div id="bg-overlay"></div>
 
+    <!-- Navigation -->
     <div class="wrapper-masthead">
       <div class="container">
-        <header class="masthead clearfix">
-          <a href="{{ site.baseurl }}/" class="site-avatar"><img src="{{ site.avatar }}" /></a>
-
-          <div class="site-info">
-            <h1 class="site-name"><a href="{{ site.baseurl }}/">{{ site.name }}</a></h1>
-            <p class="site-description">{{ site.description }}</p>
-          </div>
+        <header class="masthead">
+          <a href="{{ site.baseurl }}/" class="site-logo">{{ site.name }}</a>
 
           <nav>
             <a href="{{ site.baseurl }}/">Blog</a>
             <a href="{{ site.baseurl }}/about">About</a>
             <button class="theme-toggle" id="theme-toggle" aria-label="Switch between dark and light mode" title="Switch theme">
-              <!-- Sun icon (shown in dark mode) -->
-              <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <circle cx="12" cy="12" r="5"></circle>
                 <line x1="12" y1="1" x2="12" y2="3"></line>
                 <line x1="12" y1="21" x2="12" y2="23"></line>
@@ -45,8 +38,7 @@
                 <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
                 <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
               </svg>
-              <!-- Moon icon (shown in light mode) -->
-              <svg class="moon-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none">
+              <svg class="moon-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none">
                 <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
               </svg>
             </button>
@@ -55,33 +47,28 @@
       </div>
     </div>
 
+    <!-- Main content -->
     <div id="main" role="main" class="container">
       {{ content }}
     </div>
 
+    <!-- Footer -->
     <div class="wrapper-footer">
       <div class="container">
-        <footer class="footer">
-          {% include svg-icons.html %}
-        </footer>
+        <footer class="footer"></footer>
       </div>
     </div>
 
-    <!-- Settings backdrop -->
+    <!-- Settings -->
     <div class="settings-backdrop" id="settings-backdrop"></div>
-
-    <!-- Settings toggle button -->
     <button class="settings-toggle" id="settings-toggle" aria-label="Open settings" title="Settings">
       <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <circle cx="12" cy="12" r="3"></circle>
         <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
       </svg>
     </button>
-
-    <!-- Settings panel -->
     <div class="settings-panel" id="settings-panel">
       <h3>Page Settings</h3>
-
       <div class="setting-group">
         <div class="toggle-switch">
           <label>Background Image</label>
@@ -90,14 +77,10 @@
           </div>
         </div>
       </div>
-
       <div class="setting-group" id="wallpaper-group">
         <label>Choose Wallpaper</label>
-        <div class="wallpaper-list" id="wallpaper-list">
-          <!-- Populated by JS -->
-        </div>
+        <div class="wallpaper-list" id="wallpaper-list"></div>
       </div>
-
       <div class="setting-group" id="opacity-group">
         <label>Overlay Dark</label>
         <input type="range" id="opacity-slider" min="0" max="80" value="30">
@@ -120,7 +103,7 @@
             }
           };
           window.addEventListener('scroll', onScroll, { passive: true });
-          onScroll(); // initial state
+          onScroll();
         }
       })();
 
@@ -132,7 +115,6 @@
         var html = document.documentElement;
         var currentTheme = localStorage.getItem('theme');
 
-        // Apply saved theme
         if (currentTheme === 'dark') {
           html.setAttribute('data-theme', 'dark');
           sunIcon.style.display = '';
@@ -142,7 +124,6 @@
           sunIcon.style.display = 'none';
           moonIcon.style.display = '';
         } else {
-          // No saved preference — check system preference
           var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
           if (prefersDark) {
             html.setAttribute('data-theme', 'dark');
@@ -155,7 +136,6 @@
           }
         }
 
-        // Toggle theme on click
         themeToggle.addEventListener('click', function() {
           var isDark = html.getAttribute('data-theme') === 'dark';
           if (isDark) {
@@ -186,15 +166,10 @@
         var wallpaperGroup = document.getElementById('wallpaper-group');
         var opacityGroup = document.getElementById('opacity-group');
 
-        // Available wallpapers (auto-discovered from the Wallpaper folder)
         var wallpapers = [
           {% for file in site.static_files %}
           {% if file.relative_path contains '/Wallpaper/' %}
-          {
-            name: '{{ file.basename }}',
-            path: '{{ file.relative_path | relative_url }}',
-            ext: '{{ file.extname }}'
-          },
+          { name: '{{ file.basename }}', path: '{{ file.relative_path | relative_url }}' },
           {% endif %}
           {% endfor %}
         ];
@@ -202,10 +177,9 @@
         var state = {
           enabled: false,
           wallpaper: wallpapers.length > 0 ? wallpapers[0].path : null,
-          tint: 30  // 0-80, controls darkness of black overlay on top of wallpaper
+          tint: 30
         };
 
-        // Load saved settings
         function loadSettings() {
           try {
             var saved = localStorage.getItem('bgSettings');
@@ -213,7 +187,6 @@
               var parsed = JSON.parse(saved);
               state.enabled = parsed.enabled || false;
               state.tint = parsed.tint || 30;
-              // Check if saved wallpaper still exists
               if (parsed.wallpaper) {
                 var exists = wallpapers.some(function(w) { return w.path === parsed.wallpaper; });
                 if (exists) state.wallpaper = parsed.wallpaper;
@@ -222,21 +195,15 @@
           } catch(e) {}
         }
 
-        // Save settings
         function saveSettings() {
           localStorage.setItem('bgSettings', JSON.stringify({
-            enabled: state.enabled,
-            wallpaper: state.wallpaper,
-            tint: state.tint
+            enabled: state.enabled, wallpaper: state.wallpaper, tint: state.tint
           }));
         }
 
-        // Apply background — wallpaper at full opacity, tint overlay on top
         function applyBackground() {
           if (state.enabled && state.wallpaper) {
-            // Wallpaper on the overlay div (always full opacity)
             overlay.style.backgroundImage = 'url(' + state.wallpaper + ')';
-            // Dark tint overlay opacity (0 = no tint, wallpaper fully visible)
             overlay.style.setProperty('--bg-tint-opacity', (state.tint / 100).toString());
             overlay.classList.add('active');
             body.classList.add('has-bg');
@@ -247,9 +214,7 @@
           }
         }
 
-        // Update UI controls
         function updateUI() {
-          // Toggle state
           if (state.enabled) {
             bgToggle.classList.add('on');
             wallpaperGroup.style.display = '';
@@ -259,21 +224,13 @@
             wallpaperGroup.style.display = 'none';
             opacityGroup.style.display = 'none';
           }
-
-          // Tint slider
           opacitySlider.value = state.tint;
           opacityValue.textContent = state.tint + '%';
-          if (state.tint == 0) {
-            opacityValue.textContent = '0% — bright';
-          } else if (state.tint > 70) {
-            opacityValue.textContent = state.tint + '% — dim';
-          }
-
-          // Render wallpaper list
+          if (state.tint == 0) opacityValue.textContent = '0% — bright';
+          else if (state.tint > 70) opacityValue.textContent = state.tint + '% — dim';
           renderWallpapers();
         }
 
-        // Render wallpaper options
         function renderWallpapers() {
           wallpaperList.innerHTML = '';
           if (wallpapers.length === 0) {
@@ -284,46 +241,37 @@
             var div = document.createElement('div');
             div.className = 'wallpaper-option' + (w.path === state.wallpaper ? ' selected' : '');
             div.dataset.path = w.path;
-
             var thumb = document.createElement('div');
             thumb.className = 'wallpaper-thumb';
             thumb.style.backgroundImage = 'url(' + w.path + ')';
-
             var name = document.createElement('span');
             name.className = 'wallpaper-name';
             name.textContent = w.name;
-
             div.appendChild(thumb);
             div.appendChild(name);
-
             div.addEventListener('click', function() {
               state.wallpaper = this.dataset.path;
               saveSettings();
               applyBackground();
               updateUI();
             });
-
             wallpaperList.appendChild(div);
           });
         }
 
-        // Toggle panel
         toggleBtn.addEventListener('click', function(e) {
           e.stopPropagation();
-          var isOpen = panel.classList.contains('open');
           panel.classList.toggle('open');
           backdrop.classList.toggle('show');
           toggleBtn.classList.toggle('open');
         });
 
-        // Close panel on backdrop click
         backdrop.addEventListener('click', function() {
           panel.classList.remove('open');
           backdrop.classList.remove('show');
           toggleBtn.classList.remove('open');
         });
 
-        // Toggle background
         bgToggle.addEventListener('click', function() {
           state.enabled = !state.enabled;
           saveSettings();
@@ -331,25 +279,16 @@
           updateUI();
         });
 
-        // Tint slider
         opacitySlider.addEventListener('input', function() {
           state.tint = parseInt(this.value);
           opacityValue.textContent = state.tint + '%';
-          if (state.tint == 0) {
-            opacityValue.textContent = '0% — bright';
-          } else if (state.tint > 70) {
-            opacityValue.textContent = state.tint + '% — dim';
-          }
-          if (state.enabled) {
-            applyBackground();
-          }
+          if (state.tint == 0) opacityValue.textContent = '0% — bright';
+          else if (state.tint > 70) opacityValue.textContent = state.tint + '% — dim';
+          if (state.enabled) applyBackground();
         });
 
-        opacitySlider.addEventListener('change', function() {
-          saveSettings();
-        });
+        opacitySlider.addEventListener('change', function() { saveSettings(); });
 
-        // Init
         loadSettings();
         applyBackground();
         updateUI();
