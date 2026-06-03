@@ -1,27 +1,154 @@
-
 //
 // VARIABLES
 //
 
-// Colors
-$blue: #4183C4;
+// Brand colors
+$blue: #4B7BEC;
+$blue-light: #7BA4F5;
+$blue-dark: #2D5AC9;
+$purple: #8B5CF6;
+$purple-light: #A78BFA;
+$cyan: #06B6D4;
+$pink: #EC4899;
 
-// Grays
+// Gradient presets
+$gradient-primary: linear-gradient(135deg, #4B7BEC, #8B5CF6);
+$gradient-accent: linear-gradient(135deg, #06B6D4, #4B7BEC);
+$gradient-warm: linear-gradient(135deg, #4B7BEC, #EC4899);
+
+// Legacy SCSS variables (keep for fallback compatibility)
 $black: #000;
-$darkerGray: #222;
-$darkGray: #333;
+$darkerGray: #111;
+$darkGray: #222;
 $gray: #666;
-$lightGray: #eee;
+$lightGray: #e8e8ec;
 $white: #fff;
 
 // Font stacks
-$helvetica: Helvetica, Arial, sans-serif;
-$helveticaNeue: "Helvetica Neue", Helvetica, Arial, sans-serif;
-$georgia: Georgia, serif;
+$helvetica: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+$helveticaNeue: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+$georgia: Georgia, "Noto Serif CJK SC", serif;
+$mono: "SF Mono", "Fira Code", "Fira Mono", "Roboto Mono", "Consolas", "Menlo", monospace;
+
+// CSS Custom Properties for dynamic theming
+:root {
+  // Background colors
+  --bg-primary: #f8f9fc;
+  --bg-secondary: #f0f1f6;
+  --bg-tertiary: #e8e9f0;
+  --bg-card: rgba(255, 255, 255, 0.72);
+  --bg-footer: rgba(240, 241, 246, 0.85);
+  --bg-code: #f0f1f6;
+  --bg-nav: rgba(248, 249, 252, 0.78);
+
+  // Text colors
+  --text-primary: #1a1b2e;
+  --text-secondary: #4a4b6a;
+  --text-muted: #8888a0;
+  --text-link: #4B7BEC;
+  --text-link-hover: #2D5AC9;
+
+  // Border colors
+  --border-color: rgba(75, 123, 236, 0.15);
+  --border-light: rgba(0, 0, 0, 0.06);
+
+  // Shadows
+  --shadow-sm: 0 1px 3px rgba(75, 123, 236, 0.06);
+  --shadow-md: 0 4px 20px rgba(75, 123, 236, 0.10);
+  --shadow-lg: 0 8px 40px rgba(75, 123, 236, 0.12);
+  --shadow-glow: 0 0 20px rgba(75, 123, 236, 0.15);
+
+  // Selection
+  --selection-bg: rgba(75, 123, 236, 0.20);
+  --selection-text: #1a1b2e;
+
+  // Code
+  --code-bg: #f0f1f6;
+  --code-border: rgba(75, 123, 236, 0.20);
+
+  // Highlight (syntax)
+  --highlight-bg: #f4f5fa;
+  --highlight-border: rgba(75, 123, 236, 0.15);
+
+  // Special
+  --date-color: #8888a0;
+  --glow-color: rgba(75, 123, 236, 0.3);
+}
+
+// Dark theme
+[data-theme="dark"] {
+  --bg-primary: #0a0a0f;
+  --bg-secondary: #12121a;
+  --bg-tertiary: #1a1a26;
+  --bg-card: rgba(18, 18, 26, 0.78);
+  --bg-footer: rgba(10, 10, 15, 0.92);
+  --bg-code: #12121a;
+  --bg-nav: rgba(10, 10, 15, 0.82);
+
+  --text-primary: #e4e4f0;
+  --text-secondary: #9999b8;
+  --text-muted: #666680;
+  --text-link: #7BA4F5;
+  --text-link-hover: #A78BFA;
+
+  --border-color: rgba(139, 92, 246, 0.20);
+  --border-light: rgba(255, 255, 255, 0.06);
+
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 20px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 8px 40px rgba(0, 0, 0, 0.5);
+  --shadow-glow: 0 0 25px rgba(139, 92, 246, 0.15);
+
+  --selection-bg: rgba(139, 92, 246, 0.30);
+  --selection-text: #e4e4f0;
+
+  --code-bg: #12121a;
+  --code-border: rgba(139, 92, 246, 0.25);
+
+  --highlight-bg: #12121a;
+  --highlight-border: rgba(139, 92, 246, 0.20);
+
+  --date-color: #666680;
+  --glow-color: rgba(139, 92, 246, 0.25);
+}
 
 // Mobile breakpoints
 @mixin mobile {
   @media screen and (max-width: 640px) {
     @content;
   }
+}
+
+// Smooth transition for theme-switching
+@mixin theme-transition {
+  transition: background-color 0.35s ease, color 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease, backdrop-filter 0.35s ease;
+}
+
+// Glassmorphism
+@mixin glass {
+  background: var(--bg-card);
+  backdrop-filter: blur(12px) saturate(1.4);
+  -webkit-backdrop-filter: blur(12px) saturate(1.4);
+  border: 1px solid var(--border-color);
+}
+
+// Gradient text
+@mixin gradient-text {
+  background: $gradient-primary;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+// Glow effect
+@mixin glow($color: var(--glow-color)) {
+  box-shadow: 0 0 20px $color;
+}
+
+// Futuristic grid bg
+@mixin grid-bg {
+  background-image:
+    linear-gradient(var(--border-light) 1px, transparent 1px),
+    linear-gradient(90deg, var(--border-light) 1px, transparent 1px);
+  background-size: 40px 40px;
 }

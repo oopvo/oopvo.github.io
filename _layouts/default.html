@@ -16,6 +16,9 @@
   </head>
 
   <body>
+    <!-- Background overlay for wallpaper support -->
+    <div id="bg-overlay"></div>
+
     <div class="wrapper-masthead">
       <div class="container">
         <header class="masthead clearfix">
@@ -29,6 +32,24 @@
           <nav>
             <a href="{{ site.baseurl }}/">Blog</a>
             <a href="{{ site.baseurl }}/about">About</a>
+            <button class="theme-toggle" id="theme-toggle" aria-label="Switch between dark and light mode" title="Switch theme">
+              <!-- Sun icon (shown in dark mode) -->
+              <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="5"></circle>
+                <line x1="12" y1="1" x2="12" y2="3"></line>
+                <line x1="12" y1="21" x2="12" y2="23"></line>
+                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                <line x1="1" y1="12" x2="3" y2="12"></line>
+                <line x1="21" y1="12" x2="23" y2="12"></line>
+                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+              </svg>
+              <!-- Moon icon (shown in light mode) -->
+              <svg class="moon-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none">
+                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+              </svg>
+            </button>
           </nav>
         </header>
       </div>
@@ -46,6 +67,280 @@
       </div>
     </div>
 
+    <!-- Settings backdrop -->
+    <div class="settings-backdrop" id="settings-backdrop"></div>
+
+    <!-- Settings toggle button -->
+    <button class="settings-toggle" id="settings-toggle" aria-label="Open settings" title="Settings">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="3"></circle>
+        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+      </svg>
+    </button>
+
+    <!-- Settings panel -->
+    <div class="settings-panel" id="settings-panel">
+      <h3>Page Settings</h3>
+
+      <div class="setting-group">
+        <div class="toggle-switch">
+          <label>Background Image</label>
+          <div class="toggle-track" id="bg-toggle">
+            <div class="toggle-knob"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="setting-group" id="wallpaper-group">
+        <label>Choose Wallpaper</label>
+        <div class="wallpaper-list" id="wallpaper-list">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+
+      <div class="setting-group" id="opacity-group">
+        <label>Opacity</label>
+        <input type="range" id="opacity-slider" min="5" max="80" value="30">
+        <div class="opacity-value" id="opacity-value">30%</div>
+      </div>
+    </div>
+
     {% include analytics.html %}
+
+    <script>
+      // Scroll-aware nav
+      (function() {
+        var mastheadWrap = document.querySelector('.wrapper-masthead');
+        if (mastheadWrap) {
+          var onScroll = function() {
+            if (window.scrollY > 10) {
+              mastheadWrap.classList.add('scrolled');
+            } else {
+              mastheadWrap.classList.remove('scrolled');
+            }
+          };
+          window.addEventListener('scroll', onScroll, { passive: true });
+          onScroll(); // initial state
+        }
+      })();
+
+      // Dark mode toggle
+      (function() {
+        var themeToggle = document.getElementById('theme-toggle');
+        var sunIcon = themeToggle.querySelector('.sun-icon');
+        var moonIcon = themeToggle.querySelector('.moon-icon');
+        var html = document.documentElement;
+        var currentTheme = localStorage.getItem('theme');
+
+        // Apply saved theme
+        if (currentTheme === 'dark') {
+          html.setAttribute('data-theme', 'dark');
+          sunIcon.style.display = '';
+          moonIcon.style.display = 'none';
+        } else if (currentTheme === 'light') {
+          html.removeAttribute('data-theme');
+          sunIcon.style.display = 'none';
+          moonIcon.style.display = '';
+        } else {
+          // No saved preference — check system preference
+          var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+          if (prefersDark) {
+            html.setAttribute('data-theme', 'dark');
+            sunIcon.style.display = '';
+            moonIcon.style.display = 'none';
+            localStorage.setItem('theme', 'dark');
+          } else {
+            sunIcon.style.display = 'none';
+            moonIcon.style.display = '';
+          }
+        }
+
+        // Toggle theme on click
+        themeToggle.addEventListener('click', function() {
+          var isDark = html.getAttribute('data-theme') === 'dark';
+          if (isDark) {
+            html.removeAttribute('data-theme');
+            localStorage.setItem('theme', 'light');
+            sunIcon.style.display = 'none';
+            moonIcon.style.display = '';
+          } else {
+            html.setAttribute('data-theme', 'dark');
+            localStorage.setItem('theme', 'dark');
+            sunIcon.style.display = '';
+            moonIcon.style.display = 'none';
+          }
+        });
+      })();
+
+      // Background settings
+      (function() {
+        var overlay = document.getElementById('bg-overlay');
+        var body = document.body;
+        var toggleBtn = document.getElementById('settings-toggle');
+        var panel = document.getElementById('settings-panel');
+        var backdrop = document.getElementById('settings-backdrop');
+        var bgToggle = document.getElementById('bg-toggle');
+        var wallpaperList = document.getElementById('wallpaper-list');
+        var opacitySlider = document.getElementById('opacity-slider');
+        var opacityValue = document.getElementById('opacity-value');
+        var wallpaperGroup = document.getElementById('wallpaper-group');
+        var opacityGroup = document.getElementById('opacity-group');
+
+        // Available wallpapers (auto-discovered from the Wallpaper folder)
+        var wallpapers = [
+          {% for file in site.static_files %}
+          {% if file.path contains '/Wallpaper/' %}
+          {
+            name: '{{ file.basename }}',
+            path: '{{ file.path | relative_url }}',
+            ext: '{{ file.extname }}'
+          },
+          {% endif %}
+          {% endfor %}
+        ];
+
+        var state = {
+          enabled: false,
+          wallpaper: wallpapers.length > 0 ? wallpapers[0].path : null,
+          opacity: 30
+        };
+
+        // Load saved settings
+        function loadSettings() {
+          try {
+            var saved = localStorage.getItem('bgSettings');
+            if (saved) {
+              var parsed = JSON.parse(saved);
+              state.enabled = parsed.enabled || false;
+              state.opacity = parsed.opacity || 30;
+              // Check if saved wallpaper still exists
+              if (parsed.wallpaper) {
+                var exists = wallpapers.some(function(w) { return w.path === parsed.wallpaper; });
+                if (exists) state.wallpaper = parsed.wallpaper;
+              }
+            }
+          } catch(e) {}
+        }
+
+        // Save settings
+        function saveSettings() {
+          localStorage.setItem('bgSettings', JSON.stringify({
+            enabled: state.enabled,
+            wallpaper: state.wallpaper,
+            opacity: state.opacity
+          }));
+        }
+
+        // Apply background
+        function applyBackground() {
+          if (state.enabled && state.wallpaper) {
+            overlay.style.backgroundImage = 'url(' + state.wallpaper + ')';
+            overlay.style.setProperty('--bg-opacity', (state.opacity / 100).toString());
+            overlay.classList.add('active');
+            body.classList.add('has-bg');
+          } else {
+            overlay.classList.remove('active');
+            body.classList.remove('has-bg');
+          }
+        }
+
+        // Update UI controls
+        function updateUI() {
+          // Toggle state
+          if (state.enabled) {
+            bgToggle.classList.add('on');
+            wallpaperGroup.style.display = '';
+            opacityGroup.style.display = '';
+          } else {
+            bgToggle.classList.remove('on');
+            wallpaperGroup.style.display = 'none';
+            opacityGroup.style.display = 'none';
+          }
+
+          // Opacity slider
+          opacitySlider.value = state.opacity;
+          opacityValue.textContent = state.opacity + '%';
+
+          // Render wallpaper list
+          renderWallpapers();
+        }
+
+        // Render wallpaper options
+        function renderWallpapers() {
+          wallpaperList.innerHTML = '';
+          if (wallpapers.length === 0) {
+            wallpaperList.innerHTML = '<div style="font-size:13px;color:var(--text-muted);padding:8px;">No wallpapers found</div>';
+            return;
+          }
+          wallpapers.forEach(function(w) {
+            var div = document.createElement('div');
+            div.className = 'wallpaper-option' + (w.path === state.wallpaper ? ' selected' : '');
+            div.dataset.path = w.path;
+
+            var thumb = document.createElement('div');
+            thumb.className = 'wallpaper-thumb';
+            thumb.style.backgroundImage = 'url(' + w.path + ')';
+
+            var name = document.createElement('span');
+            name.className = 'wallpaper-name';
+            name.textContent = w.name;
+
+            div.appendChild(thumb);
+            div.appendChild(name);
+
+            div.addEventListener('click', function() {
+              state.wallpaper = this.dataset.path;
+              saveSettings();
+              applyBackground();
+              updateUI();
+            });
+
+            wallpaperList.appendChild(div);
+          });
+        }
+
+        // Toggle panel
+        toggleBtn.addEventListener('click', function(e) {
+          e.stopPropagation();
+          var isOpen = panel.classList.contains('open');
+          panel.classList.toggle('open');
+          backdrop.classList.toggle('show');
+          toggleBtn.classList.toggle('open');
+        });
+
+        // Close panel on backdrop click
+        backdrop.addEventListener('click', function() {
+          panel.classList.remove('open');
+          backdrop.classList.remove('show');
+          toggleBtn.classList.remove('open');
+        });
+
+        // Toggle background
+        bgToggle.addEventListener('click', function() {
+          state.enabled = !state.enabled;
+          saveSettings();
+          applyBackground();
+          updateUI();
+        });
+
+        // Opacity slider
+        opacitySlider.addEventListener('input', function() {
+          state.opacity = parseInt(this.value);
+          opacityValue.textContent = state.opacity + '%';
+          if (state.enabled) {
+            applyBackground();
+          }
+        });
+
+        opacitySlider.addEventListener('change', function() {
+          saveSettings();
+        });
+
+        // Init
+        loadSettings();
+        applyBackground();
+        updateUI();
+      })();
+    </script>
   </body>
 </html>
