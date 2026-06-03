@@ -99,8 +99,8 @@
       </div>
 
       <div class="setting-group" id="opacity-group">
-        <label>Opacity</label>
-        <input type="range" id="opacity-slider" min="5" max="80" value="30">
+        <label>Overlay Dark</label>
+        <input type="range" id="opacity-slider" min="0" max="80" value="30">
         <div class="opacity-value" id="opacity-value">30%</div>
       </div>
     </div>
@@ -202,7 +202,7 @@
         var state = {
           enabled: false,
           wallpaper: wallpapers.length > 0 ? wallpapers[0].path : null,
-          opacity: 30
+          tint: 30  // 0-80, controls darkness of black overlay on top of wallpaper
         };
 
         // Load saved settings
@@ -212,7 +212,7 @@
             if (saved) {
               var parsed = JSON.parse(saved);
               state.enabled = parsed.enabled || false;
-              state.opacity = parsed.opacity || 30;
+              state.tint = parsed.tint || 30;
               // Check if saved wallpaper still exists
               if (parsed.wallpaper) {
                 var exists = wallpapers.some(function(w) { return w.path === parsed.wallpaper; });
@@ -227,20 +227,23 @@
           localStorage.setItem('bgSettings', JSON.stringify({
             enabled: state.enabled,
             wallpaper: state.wallpaper,
-            opacity: state.opacity
+            tint: state.tint
           }));
         }
 
-        // Apply background
+        // Apply background — wallpaper at full opacity, tint overlay on top
         function applyBackground() {
           if (state.enabled && state.wallpaper) {
+            // Wallpaper on the overlay div (always full opacity)
             overlay.style.backgroundImage = 'url(' + state.wallpaper + ')';
-            overlay.style.setProperty('--bg-opacity', (state.opacity / 100).toString());
+            // Dark tint overlay opacity (0 = no tint, wallpaper fully visible)
+            overlay.style.setProperty('--bg-tint-opacity', (state.tint / 100).toString());
             overlay.classList.add('active');
             body.classList.add('has-bg');
           } else {
             overlay.classList.remove('active');
             body.classList.remove('has-bg');
+            overlay.style.backgroundImage = '';
           }
         }
 
@@ -257,9 +260,14 @@
             opacityGroup.style.display = 'none';
           }
 
-          // Opacity slider
-          opacitySlider.value = state.opacity;
-          opacityValue.textContent = state.opacity + '%';
+          // Tint slider
+          opacitySlider.value = state.tint;
+          opacityValue.textContent = state.tint + '%';
+          if (state.tint == 0) {
+            opacityValue.textContent = '0% — bright';
+          } else if (state.tint > 70) {
+            opacityValue.textContent = state.tint + '% — dim';
+          }
 
           // Render wallpaper list
           renderWallpapers();
@@ -323,10 +331,15 @@
           updateUI();
         });
 
-        // Opacity slider
+        // Tint slider
         opacitySlider.addEventListener('input', function() {
-          state.opacity = parseInt(this.value);
-          opacityValue.textContent = state.opacity + '%';
+          state.tint = parseInt(this.value);
+          opacityValue.textContent = state.tint + '%';
+          if (state.tint == 0) {
+            opacityValue.textContent = '0% — bright';
+          } else if (state.tint > 70) {
+            opacityValue.textContent = state.tint + '% — dim';
+          }
           if (state.enabled) {
             applyBackground();
           }
