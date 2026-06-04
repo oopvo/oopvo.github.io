@@ -4,11 +4,28 @@ title: DeepSeek-V3 技术报告精读：671B 参数的 MoE 奇迹
 categories: paper-reading
 tags: [DeepSeek, MoE, MLA, 大模型, 推理优化]
 date: 2026-06-04
+glossary:
+  - term: "MoE"
+    def: "Mixture of Experts，混合专家模型。将模型分解为多个「专家」子网络，每个 token 仅激活部分专家，在相同计算量下大幅增加模型容量。DeepSeek-V3 总参数量 671B，每 token 仅激活 37B。"
+  - term: "MLA"
+    def: "Multi-head Latent Attention，多头潜在注意力。将 Key/Value 缓存压缩到低维潜在空间（512维），相比标准 MHA 减少 98.6% 的 KV 缓存占用，是 DeepSeek-V3 长上下文推理的关键技术。"
+  - term: "MTP"
+    def: "Multi-Token Prediction，多 Token 预测。在训练时让模型同时预测多个未来 token（而非仅下一个），强制学习更长距离依赖，推理时无额外开销。"
+  - term: "FP8"
+    def: "8-bit Floating Point，8 位浮点数格式。相比 FP16/FP32 可减少 50%-75% 显存占用和加速计算。DeepSeek-V3 全程使用 FP8 混合精度训练，显著降低成本。"
+  - term: "GRPO"
+    def: "Group Relative Policy Optimization，分组相对策略优化。DeepSeek 自研的强化学习算法，在 RL 阶段对模型进行对齐训练，无需依赖 Critic 模型。"
+  - term: "Auxiliary Loss"
+    def: "辅助损失函数。传统 MoE 训练中用于平衡各专家负载的额外损失项，需要调节权重超参数 α。DeepSeek-V3 提出了无辅助损失的动态负载均衡策略。"
+  - term: "DSA"
+    def: "DeepSeek Sparse Attention，DeepSeek 稀疏注意力。V3.2 引入的两级注意力机制（闪电索引器 + 细粒度 token 选择），将注意力复杂度从 O(n²) 降至 ~O(n·k)。"
+  - term: "SFT"
+    def: "Supervised Fine-Tuning，监督微调。使用人工标注的高质量数据对预训练模型进行指令微调，使其对齐人类偏好和指令遵循能力。"
 ---
 
 ## 概述
 
-**DeepSeek-V3** 于 2024 年 12 月 27 日由 DeepSeek-AI 发布，是一个 **Mixture-of-Experts (MoE) 大语言模型**，总参数量 **671B**，每个 token 仅激活 **37B 参数**，在 **14.8 万亿 tokens** 上完成预训练。整次训练仅耗费 **2.788M H800 GPU 小时**（约 $5.6M），效率惊人。
+**DeepSeek-V3** 于 2024 年 12 月 27 日由 DeepSeek-AI 发布，是一个 **{% include gloss.html term="MoE" %}大语言模型**，总参数量 **671B**，每个 token 仅激活 **37B 参数**，在 **14.8 万亿 tokens** 上完成预训练。整次训练仅耗费 **2.788M H800 GPU 小时**（约 $5.6M），效率惊人。
 
 > 论文：[DeepSeek-V3 Technical Report](https://arxiv.org/abs/2412.19437) | 代码：[github.com/deepseek-ai/DeepSeek-V3](https://github.com/deepseek-ai/DeepSeek-V3)
 
@@ -32,7 +49,7 @@ DeepSeek-V3 的核心贡献可概括为三点：
 
 ---
 
-## 一、Multi-Head Latent Attention (MLA)
+## 一、Multi-Head Latent Attention ({% include gloss.html term="MLA" %})
 
 ### 问题：KV Cache 内存瓶颈
 
@@ -112,7 +129,7 @@ k = [k_nope, k_rope]     # 总 192-dim
 └──────────────────────────────────────┘
 ```
 
-### 无 Aux Loss 负载均衡
+### {% include gloss.html term="Auxiliary Loss" %}无 Aux Loss 负载均衡
 
 传统 MoE 使用辅助损失（auxiliary loss）来平衡专家负载，但这会干扰主任务训练。DeepSeek-V3 提出了一种**无辅助损失的动态负载均衡策略**：
 
@@ -152,7 +169,7 @@ DeepSeek-V3:  动态调整专家偏置项（bias）
 
 ---
 
-## 三、Multi-Token Prediction (MTP)
+## 三、Multi-Token Prediction ({% include gloss.html term="MTP" %})
 
 传统语言模型训练时，每个位置只预测**下一个** token。DeepSeek-V3 创新性地让模型同时预测**多个未来 token**：
 
@@ -181,7 +198,7 @@ MTP 方式:
 ### 三阶段范式
 
 ```
- 预训练 ──────────▶  SFT ──────────▶  RL
+ 预训练 ──────────▶  {% include gloss.html term="SFT" %} ──────────▶  {% include gloss.html term="GRPO" %}
  14.8T tokens      监督微调          GRPO 强化学习
  2048 H800 GPUs                     分组相对策略优化
  2.788M GPU 小时
@@ -195,7 +212,7 @@ MTP 方式:
 | 总训练时间 | 2.788M H800 GPU 小时 |
 | 估计成本 | ~$5.6M（对比同规模通常 >$100M）|
 | 训练稳定性 | **零不可恢复 loss spike**，无需回滚 |
-| 精度策略 | FP8 混合精度训练 |
+| 精度策略 | {% include gloss.html term="FP8" %}混合精度训练 |
 
 > 相比之下，Meta 训练 Llama 3 405B 用了 30.8M GPU 小时（DeepSeek-V3 的 **11 倍**）。
 
@@ -225,7 +242,7 @@ DeepSeek-V3 在 **所有开源模型中全面领先**，闭源模型中与 GPT-4
 
 2025年底，DeepSeek 发布了重大更新 V3.2：
 
-- **DeepSeek Sparse Attention (DSA)** — 两级注意力（闪电索引器 + 细粒度 token 选择），将复杂度从 O(n²) 降至 ~O(n·k)
+- **{% include gloss.html term="DSA" %}** — 两级注意力（闪电索引器 + 细粒度 token 选择），将复杂度从 O(n²) 降至 ~O(n·k)
 - **可扩展 RL 框架** — 后训练计算量超过预训练的 10%
 - **Agent 任务合成管线** — 85K+ 复杂指令（代码/搜索/通用 agent）
 - **竞赛成绩** — IMO 2025 金牌（35/42），IOI 2025 金牌，ICPC 世界总决赛 2025 金牌

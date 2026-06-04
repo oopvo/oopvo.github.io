@@ -935,6 +935,102 @@ table {
 }
 
 /***********************/
+/* GLOSS / MARGIN NOTES*/
+/***********************/
+
+// Entry with glossary gets narrower to leave room for margin notes
+.entry-gloss {
+  max-width: 680px;
+}
+
+.gloss-card {
+  float: right;
+  clear: right;
+  margin: 0.25em 0 0.8em;
+  margin-right: -260px;
+  width: 220px;
+  @include glass;
+  border-radius: 10px;
+  border-color: var(--border-color);
+  font-size: 13px;
+  line-height: 1.5;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease, opacity 0.3s ease;
+
+  &:hover {
+    border-color: var(--text-link);
+    box-shadow: var(--shadow-glow);
+  }
+}
+
+.gloss-summary {
+  cursor: pointer;
+  padding: 8px 12px;
+  font-weight: 500;
+  color: var(--text-link);
+  list-style: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  user-select: none;
+  transition: color 0.2s ease;
+
+  &::-webkit-details-marker {
+    display: none;
+  }
+
+  &::after {
+    content: '+';
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text-muted);
+    transition: transform 0.3s ease, color 0.3s ease;
+    line-height: 1;
+  }
+
+  &:hover::after {
+    color: var(--text-link);
+  }
+
+  .gloss-card[open] &::after {
+    content: '−';
+    transform: rotate(180deg);
+  }
+}
+
+.gloss-def {
+  padding: 0 12px 10px;
+  color: var(--text-secondary);
+  font-size: 12.5px;
+  line-height: 1.55;
+  border-top: 1px solid var(--border-light);
+  margin-top: 0;
+  padding-top: 8px;
+}
+
+// When glossary entry is missing from front matter
+.gloss-missing {
+  color: var(--text-muted);
+  font-style: italic;
+  font-size: 0.85em;
+  cursor: help;
+}
+
+// Mobile: collapse margin notes to inline
+@include mobile {
+  .entry-gloss {
+    max-width: 100%;
+  }
+
+  .gloss-card {
+    float: none;
+    clear: none;
+    margin: 0.6em 0;
+    margin-right: 0;
+    width: 100%;
+  }
+}
+
+/***********************/
 /* SETTINGS PANEL      */
 /***********************/
 
