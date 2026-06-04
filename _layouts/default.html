@@ -26,6 +26,7 @@
           <nav>
             <a href="{{ site.baseurl }}/">Blog</a>
             <a href="{{ site.baseurl }}/about">About</a>
+            <a href="{{ site.baseurl }}/glossary">Glossary</a>
             <button class="theme-toggle" id="theme-toggle" aria-label="Switch between dark and light mode" title="Switch theme">
               <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <circle cx="12" cy="12" r="5"></circle>
@@ -88,12 +89,15 @@
       </div>
     </div>
 
-    <!-- Glossary bottom sheet -->
-    <div class="gloss-sheet-backdrop" id="gloss-sheet-backdrop"></div>
-    <div class="gloss-sheet" id="gloss-sheet">
-      <div class="gloss-sheet-handle"></div>
-      <div class="gloss-sheet-term" id="gloss-sheet-term"></div>
-      <div class="gloss-sheet-def" id="gloss-sheet-def"></div>
+    <!-- Glossary dialog -->
+    <div class="gloss-dialog-wrap" id="gloss-dialog-wrap" hidden>
+      <div class="gloss-dialog-backdrop" id="gloss-dialog-backdrop"></div>
+      <div class="gloss-dialog" id="gloss-dialog" role="dialog" aria-modal="true">
+        <button class="gloss-dialog-close" id="gloss-dialog-close" aria-label="关闭">✕</button>
+        <div class="gloss-dialog-term" id="gloss-dialog-term"></div>
+        <div class="gloss-dialog-def" id="gloss-dialog-def"></div>
+        <a class="gloss-dialog-link" id="gloss-dialog-link" target="_blank">查看详情 →</a>
+      </div>
     </div>
 
     {% include analytics.html %}
@@ -302,27 +306,40 @@
         updateUI();
       })();
 
-      // Glossary bottom sheet
+      // Glossary dialog
       (function() {
-        var sheet = document.getElementById('gloss-sheet');
-        var backdrop = document.getElementById('gloss-sheet-backdrop');
-        var termEl = document.getElementById('gloss-sheet-term');
-        var defEl = document.getElementById('gloss-sheet-def');
+        var wrap = document.getElementById('gloss-dialog-wrap');
+        var backdrop = document.getElementById('gloss-dialog-backdrop');
+        var termEl = document.getElementById('gloss-dialog-term');
+        var defEl = document.getElementById('gloss-dialog-def');
+        var linkEl = document.getElementById('gloss-dialog-link');
+        var closeBtn = document.getElementById('gloss-dialog-close');
+
+        function open(term, def) {
+          termEl.textContent = term;
+          defEl.textContent = def;
+          linkEl.href = '{{ site.baseurl }}/glossary/#' + term.toLowerCase().replace(/\s+/g, '-');
+          wrap.hidden = false;
+          document.body.style.overflow = 'hidden';
+          requestAnimationFrame(function() {
+            wrap.classList.add('open');
+          });
+        }
+
+        function close() {
+          wrap.classList.remove('open');
+          document.body.style.overflow = '';
+          setTimeout(function() { wrap.hidden = true; }, 350);
+        }
 
         document.addEventListener('click', function(e) {
           var ref = e.target.closest('.gloss-ref, .ticker-item');
           if (!ref) return;
-          e.preventDefault();
-          termEl.textContent = ref.dataset.term;
-          defEl.textContent = ref.dataset.def;
-          sheet.classList.add('open');
-          backdrop.classList.add('show');
+          open(ref.dataset.term, ref.dataset.def);
         });
 
-        backdrop.addEventListener('click', function() {
-          sheet.classList.remove('open');
-          backdrop.classList.remove('show');
-        });
+        backdrop.addEventListener('click', close);
+        closeBtn.addEventListener('click', close);
       })();
     </script>
   </body>

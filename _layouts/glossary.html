@@ -1,0 +1,34 @@
+---
+layout: default
+---
+
+<article class="glossary-page">
+  <header class="glossary-page-header">
+    <a href="{{ site.baseurl }}/glossary/" class="glossary-back">← 名词百科</a>
+    <h1>{{ page.title }}</h1>
+    {% if page.categories %}
+    <div class="glossary-meta">
+      分类：{% for cat in page.categories %}<span class="glossary-cat-badge">{{ cat }}</span>{% endfor %}
+    </div>
+    {% endif %}
+  </header>
+
+  <div class="glossary-page-body">
+    {{ content }}
+  </div>
+
+  {% if page.related_posts %}
+  <footer class="glossary-page-footer">
+    <h3>📎 出处文章</h3>
+    <ul>
+      {% for post_name in page.related_posts %}
+        {% for post in site.posts %}
+          {% if post.title == post_name %}
+          <li><a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a></li>
+          {% endif %}
+        {% endfor %}
+      {% endfor %}
+    </ul>
+  </footer>
+  {% endif %}
+</article>

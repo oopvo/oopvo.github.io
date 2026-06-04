@@ -960,7 +960,7 @@ table {
   color: var(--text-link);
   font-weight: 600;
   cursor: pointer;
-  padding: 1px 4px;
+  padding: 1px 6px;
   border-radius: 4px;
   background: var(--bg-secondary);
   border: 1px solid var(--border-color);
@@ -981,69 +981,337 @@ table {
   }
 }
 
-// ── Bottom sheet ──
+// ── Centered dialog ──
 
-.gloss-sheet-backdrop {
+.gloss-dialog-wrap {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  z-index: 2000;
-  background: rgba(0, 0, 0, 0.3);
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity 0.35s ease, visibility 0.35s ease;
-  -webkit-backdrop-filter: blur(4px);
-  backdrop-filter: blur(4px);
+  z-index: 3000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
 
-  &.show {
+  &[hidden] {
+    display: none;
+  }
+
+  &.open .gloss-dialog {
+    transform: scale(1) translateY(0);
     opacity: 1;
-    visibility: visible;
+  }
+
+  &.open .gloss-dialog-backdrop {
+    opacity: 1;
   }
 }
 
-.gloss-sheet {
-  position: fixed;
-  bottom: 0;
+.gloss-dialog-backdrop {
+  position: absolute;
+  top: 0;
   left: 0;
   width: 100%;
-  z-index: 2001;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+}
+
+.gloss-dialog {
+  position: relative;
   background: var(--bg-primary);
-  border-radius: 20px 20px 0 0;
-  box-shadow: 0 -8px 40px rgba(0, 0, 0, 0.15);
-  padding: 32px 28px 28px;
-  max-height: 60vh;
-  overflow-y: auto;
-  transform: translateY(100%);
-  transition: transform 0.4s cubic-bezier(0.32, 0.72, 0, 1);
-  border-top: 1px solid var(--border-color);
+  border-radius: 20px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+  padding: 36px 32px 28px;
+  max-width: 520px;
+  width: 100%;
+  transform: scale(0.92) translateY(20px);
+  opacity: 0;
+  transition: transform 0.35s cubic-bezier(0.32, 0.72, 0, 1), opacity 0.3s ease;
+  border: 1px solid var(--border-color);
 
-  &.open {
-    transform: translateY(0);
+  .gloss-dialog-close {
+    position: absolute;
+    top: 14px;
+    right: 16px;
+    background: none;
+    border: none;
+    font-size: 18px;
+    cursor: pointer;
+    color: var(--text-muted);
+    padding: 4px;
+    line-height: 1;
+    transition: color 0.2s ease;
+
+    &:hover { color: var(--text-primary); }
   }
 
-  .gloss-sheet-handle {
-    width: 36px;
-    height: 4px;
-    border-radius: 2px;
-    background: var(--border-color);
-    margin: -16px auto 20px;
-    display: block;
-  }
-
-  .gloss-sheet-term {
-    font-size: 22px;
+  .gloss-dialog-term {
+    font-size: 26px;
     font-weight: 600;
     color: var(--text-primary);
-    margin-bottom: 12px;
+    margin-bottom: 16px;
     letter-spacing: -0.02em;
+    padding-right: 24px;
   }
 
-  .gloss-sheet-def {
+  .gloss-dialog-def {
     font-size: 15px;
     line-height: 1.7;
     color: var(--text-secondary);
+    margin-bottom: 24px;
+  }
+
+  .gloss-dialog-link {
+    display: inline-block;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-link);
+    padding: 8px 20px;
+    border-radius: 8px;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    transition: background 0.2s ease, border-color 0.2s ease;
+
+    &:hover {
+      background: rgba(75, 123, 236, 0.08);
+      border-color: var(--text-link);
+      text-decoration: none;
+    }
+
+    [data-theme="dark"] & {
+      background: rgba(139, 92, 246, 0.08);
+      &:hover { background: rgba(139, 92, 246, 0.16); }
+    }
+  }
+}
+
+// ── Glossary index page ──
+
+.glossary-index {
+  padding: 8px 0 40px;
+
+  .glossary-index-header {
+    margin-bottom: 36px;
+
+    h1 {
+      font-size: 30px;
+      font-weight: 500;
+      margin: 0 0 8px;
+      letter-spacing: -0.02em;
+    }
+
+    .glossary-index-desc {
+      color: var(--text-muted);
+      font-size: 15px;
+      margin: 0;
+    }
+  }
+
+  .glossary-empty {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--text-muted);
+
+    p { margin: 0; font-size: 15px; }
+  }
+}
+
+.glossary-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
+}
+
+.glossary-card-link {
+  text-decoration: none;
+  display: block;
+  color: inherit;
+
+  &:hover { text-decoration: none; }
+}
+
+.glossary-card {
+  padding: 24px;
+  @include glass;
+  border-radius: 14px;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+  height: 100%;
+
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--text-link);
+  }
+
+  .glossary-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    gap: 8px;
+  }
+
+  .glossary-card-term {
+    font-size: 19px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0;
+    letter-spacing: -0.01em;
+  }
+
+  .glossary-card-cat {
+    font-size: 11px;
+    font-weight: 500;
+    padding: 2px 10px;
+    border-radius: 20px;
+    background: var(--bg-secondary);
+    color: var(--text-muted);
+    white-space: nowrap;
+    letter-spacing: 0.03em;
+    flex-shrink: 0;
+  }
+
+  .glossary-card-excerpt {
+    font-size: 13px;
+    line-height: 1.55;
+    color: var(--text-secondary);
+    margin: 0 0 12px;
+  }
+
+  .glossary-card-source {
+    font-size: 12px;
+    color: var(--text-muted);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+
+// ── Glossary single page ──
+
+.glossary-page {
+  padding: 8px 0 40px;
+
+  .glossary-page-header {
+    margin-bottom: 32px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--border-color);
+
+    .glossary-back {
+      font-size: 13px;
+      color: var(--text-muted);
+      display: inline-block;
+      margin-bottom: 16px;
+      transition: color 0.2s ease;
+
+      &:hover {
+        color: var(--text-link);
+        text-decoration: none;
+      }
+    }
+
+    h1 {
+      font-size: 32px;
+      font-weight: 500;
+      margin: 0 0 10px;
+      letter-spacing: -0.02em;
+    }
+
+    .glossary-meta {
+      font-size: 13px;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .glossary-cat-badge {
+      font-size: 11px;
+      font-weight: 500;
+      padding: 2px 10px;
+      border-radius: 20px;
+      background: var(--bg-secondary);
+      color: var(--text-muted);
+    }
+  }
+
+  .glossary-page-body {
+    font-size: 15.5px;
+    line-height: 1.75;
+    color: var(--text-secondary);
+    margin-bottom: 40px;
+
+    h2 {
+      font-size: 22px;
+      font-weight: 500;
+      margin: 1.6em 0 0.6em;
+      color: var(--text-primary);
+
+      &:first-child { margin-top: 0; }
+    }
+
+    p { margin: 1em 0; }
+
+    strong { color: var(--text-primary); font-weight: 600; }
+
+    pre, code {
+      font-size: 0.88em;
+    }
+
+    // ASCII diagrams
+    pre {
+      background: var(--bg-code);
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      padding: 16px 20px;
+      overflow-x: auto;
+      font-size: 0.8em;
+      line-height: 1.4;
+      box-shadow: var(--shadow-sm);
+    }
+  }
+
+  .glossary-page-footer {
+    padding-top: 24px;
+    border-top: 1px solid var(--border-color);
+
+    h3 {
+      font-size: 15px;
+      font-weight: 600;
+      margin: 0 0 12px;
+      color: var(--text-primary);
+    }
+
+    ul {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    li {
+      margin-bottom: 6px;
+      font-size: 14px;
+
+      a {
+        color: var(--text-link);
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+
+        &::before { content: '📎 '; }
+
+        &:hover {
+          color: var(--text-link-hover);
+          text-decoration: underline;
+        }
+      }
+    }
   }
 }
 
@@ -1095,7 +1363,7 @@ table {
   color: var(--text-secondary);
   cursor: pointer;
   white-space: nowrap;
-  padding: 4px 12px;
+  padding: 4px 14px;
   border-radius: 20px;
   background: var(--bg-secondary);
   border: 1px solid var(--border-color);
@@ -1118,17 +1386,23 @@ table {
   }
 }
 
-// ── Mobile adjustments ──
+// ── Mobile ──
 
 @include mobile {
-  .gloss-sheet {
-    padding: 28px 20px 24px;
-    max-height: 70vh;
+  .gloss-dialog {
+    padding: 28px 24px 24px;
+    max-width: 100%;
+    margin: 0 12px;
 
-    .gloss-sheet-handle { margin-top: -14px; }
-    .gloss-sheet-term { font-size: 19px; }
-    .gloss-sheet-def { font-size: 14px; }
+    .gloss-dialog-term { font-size: 22px; }
+    .gloss-dialog-def { font-size: 14px; }
   }
+
+  .glossary-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .glossary-page .glossary-page-header h1 { font-size: 26px; }
 
   .ticker-inner { gap: 20px; animation-duration: 20s; }
   .ticker-item { font-size: 12px; padding: 3px 10px; }
