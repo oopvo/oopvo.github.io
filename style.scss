@@ -355,13 +355,13 @@ nav {
 }
 
 .topic-posts {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 16px;
 }
 
 .topic-posts .post {
-  padding: 28px 32px;
+  padding: 24px 26px;
   margin-bottom: 0;
   @include glass;
   border-radius: 14px;
