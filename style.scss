@@ -26,7 +26,7 @@ html {
 body {
   background: var(--bg-primary);
   @include grid-bg;
-  font: 16.5px/1.75 $helvetica;
+  font: 17px/1.75 $helvetica;
   color: var(--text-primary);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -35,8 +35,8 @@ body {
 
 .container {
   margin: 0 auto;
-  max-width: 740px;
-  padding: 0 24px;
+  max-width: 1100px;
+  padding: 0 32px;
   width: 100%;
 }
 
@@ -208,9 +208,9 @@ img {
   border-top: none;
   border-left: none;
   border-right: none;
-  margin-left: -24px;
-  margin-right: -24px;
-  padding: 0 24px;
+  margin-left: -32px;
+  margin-right: -32px;
+  padding: 0 32px;
 
   &.scrolled {
     border-bottom-color: var(--border-color);
@@ -361,7 +361,7 @@ nav {
 }
 
 .topic-posts .post {
-  padding: 24px 28px;
+  padding: 28px 32px;
   margin-bottom: 0;
   @include glass;
   border-radius: 14px;
@@ -374,7 +374,7 @@ nav {
   }
 
   h1 {
-    font-size: 18px;
+    font-size: 20px;
     font-weight: 500;
     margin: 10px 0 8px 0;
     letter-spacing: -0.01em;
@@ -392,8 +392,8 @@ nav {
   }
 
   .entry {
-    font-size: 14px;
-    line-height: 1.65;
+    font-size: 15px;
+    line-height: 1.7;
     color: var(--text-secondary);
     margin-bottom: 12px;
   }
@@ -452,8 +452,8 @@ nav {
 
 .home-layout {
   display: grid;
-  grid-template-columns: 220px 1fr;
-  gap: 48px;
+  grid-template-columns: 200px 1fr;
+  gap: 56px;
   align-items: start;
 
   @include mobile {
@@ -698,9 +698,9 @@ nav {
 .wrapper-footer {
   margin-top: 60px;
   border-top: 1px solid var(--border-light);
-  margin-left: -24px;
-  margin-right: -24px;
-  padding: 0 24px;
+  margin-left: -32px;
+  margin-right: -32px;
+  padding: 0 32px;
 }
 
 footer {
