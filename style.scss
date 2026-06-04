@@ -1125,6 +1125,52 @@ body.has-bg {
     }
   }
 
+  // ── Filter bar ──
+
+  .glossary-filter {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 24px;
+
+    .filter-btn {
+      font-size: 13px;
+      font-weight: 500;
+      padding: 6px 16px;
+      border-radius: 20px;
+      border: 1px solid var(--border-color);
+      background: var(--bg-secondary);
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: background 0.25s ease, color 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+
+      &:hover {
+        color: var(--text-link);
+        border-color: var(--text-link);
+        background: var(--bg-tertiary);
+      }
+
+      &.active {
+        background: $gradient-primary;
+        color: #fff;
+        border-color: transparent;
+        box-shadow: 0 2px 12px rgba(75, 123, 236, 0.25);
+      }
+
+      [data-theme="dark"] &.active {
+        box-shadow: 0 2px 12px rgba(139, 92, 246, 0.25);
+      }
+    }
+
+    @include mobile {
+      gap: 6px;
+      .filter-btn {
+        font-size: 12px;
+        padding: 5px 12px;
+      }
+    }
+  }
+
   .glossary-empty {
     text-align: center;
     padding: 60px 20px;
