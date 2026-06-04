@@ -938,12 +938,84 @@ table {
 /* GLOSS / MARGIN NOTES*/
 /***********************/
 
-// Entry with glossary gets narrower to leave room for margin notes
-.entry-gloss {
+// Post header with gloss toggle
+.post-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+
+  h1 {
+    margin: 0;
+    flex: 1;
+    min-width: 0;
+  }
+}
+
+// Gloss toggle switch
+.gloss-toggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  flex-shrink: 0;
+  margin-top: 4px;
+  user-select: none;
+}
+
+.gloss-toggle-label {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-muted);
+  letter-spacing: 0.02em;
+  transition: color 0.25s ease;
+
+  .gloss-toggle.on & {
+    color: var(--text-link);
+  }
+}
+
+.gloss-toggle-switch {
+  width: 32px;
+  height: 18px;
+  border-radius: 9px;
+  background: var(--border-color);
+  position: relative;
+  transition: background 0.3s ease;
+
+  .gloss-toggle.on & {
+    background: var(--text-link);
+  }
+}
+
+.gloss-toggle-knob {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #fff;
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  transition: transform 0.3s ease, background 0.3s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+
+  .gloss-toggle.on & {
+    transform: translateX(14px);
+  }
+}
+
+// Gloss cards: hidden by default
+.gloss-card {
+  display: none;
+}
+
+// When gloss is enabled
+.gloss-enabled .entry-gloss {
   max-width: 680px;
 }
 
-.gloss-card {
+.gloss-enabled .gloss-card {
+  display: block;
   float: right;
   clear: right;
   margin: 0.25em 0 0.8em;
@@ -954,7 +1026,7 @@ table {
   border-color: var(--border-color);
   font-size: 13px;
   line-height: 1.5;
-  transition: border-color 0.25s ease, box-shadow 0.25s ease, opacity 0.3s ease;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
 
   &:hover {
     border-color: var(--text-link);
@@ -962,7 +1034,7 @@ table {
   }
 }
 
-.gloss-summary {
+.gloss-enabled .gloss-summary {
   cursor: pointer;
   padding: 8px 12px;
   font-weight: 500;
@@ -972,7 +1044,6 @@ table {
   align-items: center;
   justify-content: space-between;
   user-select: none;
-  transition: color 0.2s ease;
 
   &::-webkit-details-marker {
     display: none;
@@ -991,19 +1062,17 @@ table {
     color: var(--text-link);
   }
 
-  .gloss-card[open] &::after {
+  [open] > &::after {
     content: '−';
-    transform: rotate(180deg);
   }
 }
 
-.gloss-def {
+.gloss-enabled .gloss-def {
   padding: 0 12px 10px;
   color: var(--text-secondary);
   font-size: 12.5px;
   line-height: 1.55;
   border-top: 1px solid var(--border-light);
-  margin-top: 0;
   padding-top: 8px;
 }
 
@@ -1017,16 +1086,17 @@ table {
 
 // Mobile: collapse margin notes to inline
 @include mobile {
-  .entry-gloss {
+  .gloss-enabled .entry-gloss {
     max-width: 100%;
   }
 
-  .gloss-card {
+  .gloss-enabled .gloss-card {
     float: none;
     clear: none;
     margin: 0.6em 0;
     margin-right: 0;
     width: 100%;
+    display: block;
   }
 }
 

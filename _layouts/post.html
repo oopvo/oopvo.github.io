@@ -2,8 +2,18 @@
 layout: default
 ---
 
-<article class="post page-content{% if page.glossary %} has-gloss{% endif %}">
-  <h1>{{ page.title }}</h1>
+<article class="post page-content{% if page.glossary %} has-gloss{% endif %}" id="post-article">
+  <div class="post-header">
+    <h1>{{ page.title }}</h1>
+    {% if page.glossary %}
+    <label class="gloss-toggle" title="名词边注">
+      <span class="gloss-toggle-label">名词解释</span>
+      <div class="gloss-toggle-switch">
+        <div class="gloss-toggle-knob"></div>
+      </div>
+    </label>
+    {% endif %}
+  </div>
 
   <div class="entry{% if page.glossary %} entry-gloss{% endif %}">
     {{ content }}
@@ -15,3 +25,26 @@ layout: default
 
   {% include disqus.html %}
 </article>
+
+{% if page.glossary %}
+<script>
+(function() {
+  var article = document.getElementById('post-article');
+  var toggle = document.querySelector('.gloss-toggle');
+  if (!toggle) return;
+  var key = 'gloss-' + '{{ page.url | slugify }}';
+  var saved = localStorage.getItem(key);
+
+  if (saved === 'on') {
+    article.classList.add('gloss-enabled');
+    toggle.classList.add('on');
+  }
+
+  toggle.addEventListener('click', function() {
+    article.classList.toggle('gloss-enabled');
+    toggle.classList.toggle('on');
+    localStorage.setItem(key, article.classList.contains('gloss-enabled') ? 'on' : 'off');
+  });
+})();
+</script>
+{% endif %}
