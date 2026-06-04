@@ -1,6 +1,8 @@
 ---
 layout: post
-title: You're up and running!
+title: Hello World — 博客搭建完成
+categories: deep-learning
+tags: [入门, Jekyll]
 ---
 
 Next you can update your site name, avatar and other options using the _config.yml file in the root of your repository (shown below).
