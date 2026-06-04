@@ -315,10 +315,10 @@
         var linkEl = document.getElementById('gloss-dialog-link');
         var closeBtn = document.getElementById('gloss-dialog-close');
 
-        function open(term, def) {
+        function open(term, def, url) {
           termEl.textContent = term;
           defEl.textContent = def;
-          linkEl.href = '{{ site.baseurl }}/glossary/#' + term.toLowerCase().replace(/\s+/g, '-');
+          linkEl.href = url || '{{ site.baseurl }}/glossary/';
           wrap.hidden = false;
           document.body.style.overflow = 'hidden';
           requestAnimationFrame(function() {
@@ -335,7 +335,7 @@
         document.addEventListener('click', function(e) {
           var ref = e.target.closest('.gloss-ref, .ticker-item');
           if (!ref) return;
-          open(ref.dataset.term, ref.dataset.def);
+          open(ref.dataset.term, ref.dataset.def, ref.dataset.url);
         });
 
         backdrop.addEventListener('click', close);

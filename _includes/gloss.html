@@ -1,8 +1,6 @@
-<!-- Glossary: clickable ref + data for dialog -->
-{% if page.glossary %}
-{% for entry in page.glossary %}
-{% if entry.term == include.term %}
-<span class="gloss-ref" data-term="{{ include.term }}" data-def="{{ entry.def | escape }}">{{ include.term }}</span>
-{% endif %}
-{% endfor %}
-{% endif %}
+<!-- Glossary: look up term from site.glossary collection -->
+{%- assign found_term = site.glossary | where: "title", include.term | first -%}
+{%- if found_term -%}
+  {%- assign excerpt = found_term.content | strip_html | truncate: 300 | escape -%}
+  <span class="gloss-ref" data-term="{{ include.term }}" data-def="{{ excerpt }}" data-url="{{ site.baseurl }}{{ found_term.url }}">{{ include.term }}</span>
+{%- endif -%}

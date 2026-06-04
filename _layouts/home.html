@@ -52,23 +52,19 @@ layout: default
   </main>
 </div>
 
-{% assign gloss_post = nil %}
-{% for post in site.posts %}
-  {% if post.glossary and gloss_post == nil %}
-    {% assign gloss_post = post %}
-  {% endif %}
-{% endfor %}
-
-{% if gloss_post.glossary %}
+{% assign all_terms = site.glossary | sort: "title" %}
+{% if all_terms.size > 0 %}
 <div class="ticker-wrap">
   <div class="ticker-label">名词速览</div>
   <div class="ticker-track">
     <div class="ticker-inner">
-      {% for entry in gloss_post.glossary %}
-      <span class="ticker-item" data-term="{{ entry.term }}" data-def="{{ entry.def | escape }}">{{ entry.term }}</span>
+      {% for entry in all_terms %}
+      {% assign excerpt = entry.content | strip_html | truncate: 200 | escape %}
+      <span class="ticker-item" data-term="{{ entry.title }}" data-def="{{ excerpt }}" data-url="{{ site.baseurl }}{{ entry.url }}">{{ entry.title }}</span>
       {% endfor %}
-      {% for entry in gloss_post.glossary %}
-      <span class="ticker-item" data-term="{{ entry.term }}" data-def="{{ entry.def | escape }}">{{ entry.term }}</span>
+      {% for entry in all_terms %}
+      {% assign excerpt = entry.content | strip_html | truncate: 200 | escape %}
+      <span class="ticker-item" data-term="{{ entry.title }}" data-def="{{ excerpt }}" data-url="{{ site.baseurl }}{{ entry.url }}">{{ entry.title }}</span>
       {% endfor %}
     </div>
   </div>

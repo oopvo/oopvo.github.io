@@ -881,6 +881,11 @@ table {
   }
 }
 
+// When wallpaper is active, make body transparent so overlay shows through
+body.has-bg {
+  background-color: transparent;
+}
+
 // Background Overlay
 #bg-overlay {
   position: fixed;
