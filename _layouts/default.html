@@ -333,9 +333,17 @@
         }
 
         document.addEventListener('click', function(e) {
-          var ref = e.target.closest('.gloss-ref, .ticker-item');
-          if (!ref) return;
-          open(ref.dataset.term, ref.dataset.def, ref.dataset.url);
+          // Inline glossary ref → open dialog
+          var ref = e.target.closest('.gloss-ref');
+          if (ref) {
+            open(ref.dataset.term, ref.dataset.def, ref.dataset.url);
+            return;
+          }
+          // Ticker item → navigate directly to term page
+          var ticker = e.target.closest('.ticker-item');
+          if (ticker && ticker.dataset.url) {
+            window.location.href = ticker.dataset.url;
+          }
         });
 
         backdrop.addEventListener('click', close);

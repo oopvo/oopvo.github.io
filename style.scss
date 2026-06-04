@@ -965,23 +965,21 @@ body.has-bg {
   color: var(--text-link);
   font-weight: 600;
   cursor: pointer;
-  padding: 1px 6px;
-  border-radius: 4px;
-  background: var(--bg-secondary);
-  border: 1px solid var(--border-color);
-  transition: background 0.2s ease, border-color 0.2s ease;
+  padding: 0 2px;
+  border-radius: 3px;
+  transition: background 0.2s ease, color 0.2s ease;
+  border-bottom: 1.5px dotted var(--border-color);
 
   &:hover {
-    background: rgba(75, 123, 236, 0.12);
-    border-color: var(--text-link);
+    color: var(--text-link-hover);
+    background: rgba(75, 123, 236, 0.08);
+    border-bottom-color: var(--text-link);
   }
 
   [data-theme="dark"] & {
-    border-color: rgba(139, 92, 246, 0.3);
-    background: rgba(139, 92, 246, 0.08);
     &:hover {
-      background: rgba(139, 92, 246, 0.18);
-      border-color: var(--text-link);
+      background: rgba(139, 92, 246, 0.12);
+      border-bottom-color: var(--text-link);
     }
   }
 }
@@ -1032,52 +1030,61 @@ body.has-bg {
   background: var(--bg-primary);
   border-radius: 20px;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
-  padding: 36px 32px 28px;
-  max-width: 520px;
+  padding: 40px 40px 32px;
+  max-width: min(92vw, 800px);
   width: 100%;
+  max-height: 80vh;
+  overflow-y: auto;
   transform: scale(0.92) translateY(20px);
   opacity: 0;
   transition: transform 0.35s cubic-bezier(0.32, 0.72, 0, 1), opacity 0.3s ease;
   border: 1px solid var(--border-color);
 
+  // Custom scrollbar inside dialog
+  &::-webkit-scrollbar { width: 4px; }
+  &::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 2px; }
+  &::-webkit-scrollbar-track { background: transparent; }
+
   .gloss-dialog-close {
     position: absolute;
-    top: 14px;
-    right: 16px;
+    top: 18px;
+    right: 20px;
     background: none;
     border: none;
-    font-size: 18px;
+    font-size: 20px;
     cursor: pointer;
     color: var(--text-muted);
-    padding: 4px;
+    padding: 4px 6px;
     line-height: 1;
-    transition: color 0.2s ease;
+    border-radius: 6px;
+    transition: color 0.2s ease, background 0.2s ease;
 
-    &:hover { color: var(--text-primary); }
+    &:hover { color: var(--text-primary); background: var(--bg-secondary); }
   }
 
   .gloss-dialog-term {
-    font-size: 26px;
+    font-size: 28px;
     font-weight: 600;
     color: var(--text-primary);
-    margin-bottom: 16px;
+    margin-bottom: 20px;
     letter-spacing: -0.02em;
-    padding-right: 24px;
+    padding-right: 32px;
   }
 
   .gloss-dialog-def {
-    font-size: 15px;
-    line-height: 1.7;
+    font-size: 16px;
+    line-height: 1.8;
     color: var(--text-secondary);
-    margin-bottom: 24px;
+    margin-bottom: 28px;
+    white-space: pre-wrap;
   }
 
   .gloss-dialog-link {
     display: inline-block;
-    font-size: 13px;
+    font-size: 14px;
     font-weight: 500;
     color: var(--text-link);
-    padding: 8px 20px;
+    padding: 10px 24px;
     border-radius: 8px;
     background: var(--bg-secondary);
     border: 1px solid var(--border-color);
@@ -1397,10 +1404,12 @@ body.has-bg {
   .gloss-dialog {
     padding: 28px 24px 24px;
     max-width: 100%;
+    max-height: 85vh;
     margin: 0 12px;
 
     .gloss-dialog-term { font-size: 22px; }
-    .gloss-dialog-def { font-size: 14px; }
+    .gloss-dialog-def { font-size: 15px; }
+    .gloss-dialog-link { font-size: 13px; padding: 8px 18px; }
   }
 
   .glossary-grid {
