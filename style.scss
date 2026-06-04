@@ -935,10 +935,10 @@ table {
 }
 
 /***********************/
-/* GLOSS / MARGIN NOTES*/
+/* GLOSS / GLOSSARY SYSTEM */
 /***********************/
 
-// ── Post header with gloss toggle ──
+// ── Post header ──
 
 .post-header {
   display: flex;
@@ -953,180 +953,185 @@ table {
   }
 }
 
-.gloss-toggle {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  cursor: pointer;
-  flex-shrink: 0;
-  margin-top: 6px;
-  user-select: none;
-}
-
-.gloss-toggle-label {
-  font-size: 11px;
-  font-weight: 500;
-  color: var(--text-muted);
-  letter-spacing: 0.03em;
-  transition: color 0.25s ease;
-
-  .gloss-toggle.on & { color: var(--text-link); }
-}
-
-.gloss-toggle-switch {
-  width: 28px;
-  height: 16px;
-  border-radius: 8px;
-  background: var(--border-color);
-  position: relative;
-  transition: background 0.3s ease;
-
-  .gloss-toggle.on & { background: var(--text-link); }
-}
-
-.gloss-toggle-knob {
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  background: #fff;
-  position: absolute;
-  top: 2px;
-  left: 2px;
-  transition: transform 0.3s ease;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
-
-  .gloss-toggle.on & { transform: translateX(12px); }
-}
-
-// ── Gloss cards: hidden by default ──
-
-.gloss-card {
-  display: none;
-}
-
-// ── Inline reference marker ──
+// ── Inline ref pill ──
 
 .gloss-ref {
+  display: inline;
   color: var(--text-link);
-  cursor: help;
-  text-decoration: underline dotted;
-  text-underline-offset: 3px;
-  text-decoration-color: var(--text-link);
-  font-weight: 500;
-}
+  font-weight: 600;
+  cursor: pointer;
+  padding: 1px 4px;
+  border-radius: 4px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  transition: background 0.2s ease, border-color 0.2s ease;
 
-// ── When gloss is enabled (desktop) ──
-
-@media (min-width: 900px) {
-  .gloss-enabled .entry-gloss {
-    width: 680px;
-    max-width: 100%;
+  &:hover {
+    background: rgba(75, 123, 236, 0.12);
+    border-color: var(--text-link);
   }
 
-  .gloss-enabled .gloss-card {
-    display: block;
-    float: right;
-    clear: right;
-    width: 220px;
-    margin: 0 0 0.8em;
-    margin-right: -240px;
-    @include glass;
-    border-radius: 10px;
-    border-color: var(--border-color);
-    font-size: 13px;
-    line-height: 1.5;
-
+  [data-theme="dark"] & {
+    border-color: rgba(139, 92, 246, 0.3);
+    background: rgba(139, 92, 246, 0.08);
     &:hover {
+      background: rgba(139, 92, 246, 0.18);
       border-color: var(--text-link);
-      box-shadow: var(--shadow-glow);
     }
-  }
-
-  .gloss-enabled .gloss-summary {
-    cursor: pointer;
-    padding: 7px 12px;
-    font-weight: 500;
-    color: var(--text-link);
-    list-style: none;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    user-select: none;
-    font-size: 12px;
-
-    &::-webkit-details-marker { display: none; }
-
-    &::after {
-      content: '+';
-      font-size: 13px;
-      font-weight: 700;
-      color: var(--text-muted);
-      transition: transform 0.25s ease;
-      line-height: 1;
-    }
-
-    &:hover::after { color: var(--text-link); }
-
-    [open] > &::after { content: '−'; }
-  }
-
-  .gloss-enabled .gloss-def {
-    padding: 0 12px 9px;
-    color: var(--text-secondary);
-    font-size: 12px;
-    line-height: 1.55;
-    border-top: 1px solid var(--border-light);
-    padding-top: 7px;
   }
 }
 
-// ── When gloss is enabled (mobile: inline) ──
+// ── Bottom sheet ──
 
-@media (max-width: 899px) {
-  .gloss-enabled .entry-gloss {
-    max-width: 100%;
+.gloss-sheet-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2000;
+  background: rgba(0, 0, 0, 0.3);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.35s ease, visibility 0.35s ease;
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
+
+  &.show {
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
+.gloss-sheet {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  z-index: 2001;
+  background: var(--bg-primary);
+  border-radius: 20px 20px 0 0;
+  box-shadow: 0 -8px 40px rgba(0, 0, 0, 0.15);
+  padding: 32px 28px 28px;
+  max-height: 60vh;
+  overflow-y: auto;
+  transform: translateY(100%);
+  transition: transform 0.4s cubic-bezier(0.32, 0.72, 0, 1);
+  border-top: 1px solid var(--border-color);
+
+  &.open {
+    transform: translateY(0);
   }
 
-  .gloss-enabled .gloss-card {
+  .gloss-sheet-handle {
+    width: 36px;
+    height: 4px;
+    border-radius: 2px;
+    background: var(--border-color);
+    margin: -16px auto 20px;
     display: block;
-    float: none;
-    width: 100%;
-    margin: 0.6em 0;
-    @include glass;
-    border-radius: 10px;
-    border-color: var(--border-color);
-    font-size: 13px;
-    line-height: 1.5;
   }
 
-  .gloss-enabled .gloss-summary {
-    cursor: pointer;
-    padding: 7px 12px;
-    font-weight: 500;
-    color: var(--text-link);
-    list-style: none;
-    user-select: none;
-    font-size: 12px;
-
-    &::-webkit-details-marker { display: none; }
-
-    &::after {
-      content: '▸';
-      float: right;
-      transition: transform 0.25s ease;
-    }
-
-    [open] > &::after { content: '▾'; }
+  .gloss-sheet-term {
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 12px;
+    letter-spacing: -0.02em;
   }
 
-  .gloss-enabled .gloss-def {
-    padding: 0 12px 9px;
+  .gloss-sheet-def {
+    font-size: 15px;
+    line-height: 1.7;
     color: var(--text-secondary);
-    font-size: 12px;
-    line-height: 1.55;
-    border-top: 1px solid var(--border-light);
-    padding-top: 7px;
   }
+}
+
+// ── Scrolling ticker (homepage) ──
+
+.ticker-wrap {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  margin-top: 60px;
+  padding: 12px 0;
+  border-top: 1px solid var(--border-light);
+  overflow: hidden;
+}
+
+.ticker-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-muted);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.ticker-track {
+  flex: 1;
+  overflow: hidden;
+  mask-image: linear-gradient(to right, transparent 0%, black 3%, black 97%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 3%, black 97%, transparent 100%);
+}
+
+.ticker-inner {
+  display: flex;
+  gap: 32px;
+  width: max-content;
+  animation: ticker-scroll 28s linear infinite;
+}
+
+@keyframes ticker-scroll {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.ticker-item {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  cursor: pointer;
+  white-space: nowrap;
+  padding: 4px 12px;
+  border-radius: 20px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  transition: color 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+  flex-shrink: 0;
+  user-select: none;
+
+  &:hover {
+    color: var(--text-link);
+    background: rgba(75, 123, 236, 0.08);
+    border-color: var(--text-link);
+  }
+
+  [data-theme="dark"] & {
+    border-color: rgba(139, 92, 246, 0.2);
+    &:hover {
+      background: rgba(139, 92, 246, 0.12);
+      border-color: var(--text-link);
+    }
+  }
+}
+
+// ── Mobile adjustments ──
+
+@include mobile {
+  .gloss-sheet {
+    padding: 28px 20px 24px;
+    max-height: 70vh;
+
+    .gloss-sheet-handle { margin-top: -14px; }
+    .gloss-sheet-term { font-size: 19px; }
+    .gloss-sheet-def { font-size: 14px; }
+  }
+
+  .ticker-inner { gap: 20px; animation-duration: 20s; }
+  .ticker-item { font-size: 12px; padding: 3px 10px; }
 }
 
 /***********************/

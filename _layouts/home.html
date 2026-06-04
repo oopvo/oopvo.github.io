@@ -51,3 +51,26 @@ layout: default
     {{ content }}
   </main>
 </div>
+
+{% assign gloss_post = nil %}
+{% for post in site.posts %}
+  {% if post.glossary and gloss_post == nil %}
+    {% assign gloss_post = post %}
+  {% endif %}
+{% endfor %}
+
+{% if gloss_post.glossary %}
+<div class="ticker-wrap">
+  <div class="ticker-label">名词速览</div>
+  <div class="ticker-track">
+    <div class="ticker-inner">
+      {% for entry in gloss_post.glossary %}
+      <span class="ticker-item" data-term="{{ entry.term }}" data-def="{{ entry.def | escape }}">{{ entry.term }}</span>
+      {% endfor %}
+      {% for entry in gloss_post.glossary %}
+      <span class="ticker-item" data-term="{{ entry.term }}" data-def="{{ entry.def | escape }}">{{ entry.term }}</span>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+{% endif %}

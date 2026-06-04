@@ -1,13 +1,8 @@
-<!-- Glossary: inline reference + margin card -->
+<!-- Glossary: clickable term marker -->
 {% if page.glossary %}
 {% for entry in page.glossary %}
 {% if entry.term == include.term %}
-<span class="gloss-ref" data-term="{{ include.term }}">{{ include.term }}</span><aside class="gloss-card" data-term="{{ include.term }}">
-<details>
-<summary class="gloss-summary">{{ include.term }}</summary>
-<div class="gloss-def">{{ entry.def }}</div>
-</details>
-</aside>
+<span class="gloss-ref" data-term="{{ include.term }}" data-def="{{ entry.def | escape }}">{{ include.term }}</span>
 {% endif %}
 {% endfor %}
 {% endif %}
