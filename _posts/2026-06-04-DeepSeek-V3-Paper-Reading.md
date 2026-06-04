@@ -25,7 +25,7 @@ glossary:
 
 ## 概述
 
-**DeepSeek-V3** 于 2024 年 12 月 27 日由 DeepSeek-AI 发布，是一个 **{% include gloss.html term="MoE" %}大语言模型**，总参数量 **671B**，每个 token 仅激活 **37B 参数**，在 **14.8 万亿 tokens** 上完成预训练。整次训练仅耗费 **2.788M H800 GPU 小时**（约 $5.6M），效率惊人。
+**DeepSeek-V3** 于 2024 年 12 月 27 日由 DeepSeek-AI 发布，是一个 {% include gloss.html term="MoE" %} **大语言模型**，总参数量 **671B**，每个 token 仅激活 **37B 参数**，在 **14.8 万亿 tokens** 上完成预训练。整次训练仅耗费 **2.788M H800 GPU 小时**（约 $5.6M），效率惊人。
 
 > 论文：[DeepSeek-V3 Technical Report](https://arxiv.org/abs/2412.19437) | 代码：[github.com/deepseek-ai/DeepSeek-V3](https://github.com/deepseek-ai/DeepSeek-V3)
 
@@ -197,8 +197,10 @@ MTP 方式:
 
 ### 三阶段范式
 
+{% include gloss.html term="SFT" %} 和 {% include gloss.html term="GRPO" %} 是训练的关键阶段：
+
 ```
- 预训练 ──────────▶  {% include gloss.html term="SFT" %} ──────────▶  {% include gloss.html term="GRPO" %}
+ 预训练 ──────────▶  SFT ──────────▶  RL
  14.8T tokens      监督微调          GRPO 强化学习
  2048 H800 GPUs                     分组相对策略优化
  2.788M GPU 小时
@@ -212,7 +214,7 @@ MTP 方式:
 | 总训练时间 | 2.788M H800 GPU 小时 |
 | 估计成本 | ~$5.6M（对比同规模通常 >$100M）|
 | 训练稳定性 | **零不可恢复 loss spike**，无需回滚 |
-| 精度策略 | {% include gloss.html term="FP8" %}混合精度训练 |
+| 精度策略 | {% include gloss.html term="FP8" %} 混合精度训练 |
 
 > 相比之下，Meta 训练 Llama 3 405B 用了 30.8M GPU 小时（DeepSeek-V3 的 **11 倍**）。
 
@@ -242,7 +244,7 @@ DeepSeek-V3 在 **所有开源模型中全面领先**，闭源模型中与 GPT-4
 
 2025年底，DeepSeek 发布了重大更新 V3.2：
 
-- **{% include gloss.html term="DSA" %}** — 两级注意力（闪电索引器 + 细粒度 token 选择），将复杂度从 O(n²) 降至 ~O(n·k)
+- {% include gloss.html term="DSA" %} — 两级注意力（闪电索引器 + 细粒度 token 选择），将复杂度从 O(n²) 降至 ~O(n·k)
 - **可扩展 RL 框架** — 后训练计算量超过预训练的 10%
 - **Agent 任务合成管线** — 85K+ 复杂指令（代码/搜索/通用 agent）
 - **竞赛成绩** — IMO 2025 金牌（35/42），IOI 2025 金牌，ICPC 世界总决赛 2025 金牌

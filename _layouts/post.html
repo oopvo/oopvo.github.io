@@ -7,7 +7,7 @@ layout: default
     <h1>{{ page.title }}</h1>
     {% if page.glossary %}
     <label class="gloss-toggle" title="名词边注">
-      <span class="gloss-toggle-label">名词解释</span>
+      <span class="gloss-toggle-label">边注</span>
       <div class="gloss-toggle-switch">
         <div class="gloss-toggle-knob"></div>
       </div>
@@ -32,7 +32,7 @@ layout: default
   var article = document.getElementById('post-article');
   var toggle = document.querySelector('.gloss-toggle');
   if (!toggle) return;
-  var key = 'gloss-' + '{{ page.url | slugify }}';
+  var key = 'gloss-' + article.className.replace(/[^a-z0-9]/gi, '-');
   var saved = localStorage.getItem(key);
 
   if (saved === 'on') {
