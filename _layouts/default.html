@@ -351,6 +351,9 @@
 
         backdrop.addEventListener('click', close);
         closeBtn.addEventListener('click', close);
+
+        // Expose so other scripts (TOC keywords) can open it
+        window.glossOpen = open;
       })();
     </script>
   </body>
