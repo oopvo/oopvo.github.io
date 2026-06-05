@@ -3,35 +3,31 @@ layout: default
 ---
 
 <article class="post page-content">
-  <div class="post-layout">
-    <div class="post-body">
-      <div class="post-header">
-        <h1>{{ page.title }}</h1>
-      </div>
-
-      <div class="entry">
-        {{ content }}
-      </div>
-
-      <div class="date">
-        {{ page.date | date: "%Y 年 %m 月 %d 日" }}
-      </div>
-
-      {% include disqus.html %}
-    </div>
-
-    <aside class="post-sidebar" id="post-sidebar">
-      <div class="sidebar-section" id="toc-section">
-        <h3 class="sidebar-title">📑 目录</h3>
-        <nav class="toc-list" id="toc"></nav>
-      </div>
-      <div class="sidebar-section" id="keywords-section">
-        <h3 class="sidebar-title">🏷️ 关键词</h3>
-        <div class="keywords-list" id="keywords"></div>
-      </div>
-    </aside>
+  <div class="post-header">
+    <h1>{{ page.title }}</h1>
   </div>
+
+  <div class="entry">
+    {{ content }}
+  </div>
+
+  <div class="date">
+    {{ page.date | date: "%Y 年 %m 月 %d 日" }}
+  </div>
+
+  {% include disqus.html %}
 </article>
+
+<aside class="post-sidebar" id="post-sidebar">
+  <div class="sidebar-section" id="toc-section">
+    <h3 class="sidebar-title">📑 目录</h3>
+    <nav class="toc-list" id="toc"></nav>
+  </div>
+  <div class="sidebar-section" id="keywords-section">
+    <h3 class="sidebar-title">🏷️ 关键词</h3>
+    <div class="keywords-list" id="keywords"></div>
+  </div>
+</aside>
 
 <script>
 (function() {
@@ -42,6 +38,7 @@ layout: default
   // ── TOC: scan headings ──
   var headings = entry.querySelectorAll('h1, h2, h3');
   var toc = document.getElementById('toc');
+  var tocSection = document.getElementById('toc-section');
 
   if (headings.length >= 2) {
     var tocHtml = '<ul>';
@@ -52,18 +49,19 @@ layout: default
           .replace(/[^a-z0-9一-鿿]+/g, '-')
           .replace(/^-|-$/g, '');
       }
-      var level = h.tagName.toLowerCase(); // h1, h2, h3
-      tocHtml += '<li class="toc-' + level + '"><a href="#' + h.id + '">' + h.textContent + '</a></li>';
+      var level = h.tagName.toLowerCase();
+      tocHtml += '<li class="toc-item toc-' + level + '"><a href="#' + h.id + '">' + h.textContent + '</a></li>';
     });
     tocHtml += '</ul>';
     toc.innerHTML = tocHtml;
   } else {
-    document.getElementById('toc-section').style.display = 'none';
+    tocSection.style.display = 'none';
   }
 
   // ── Keywords: collect unique gloss-ref terms ──
   var refs = entry.querySelectorAll('.gloss-ref');
   var kwContainer = document.getElementById('keywords');
+  var kwSection = document.getElementById('keywords-section');
 
   if (refs.length > 0) {
     var seen = {};
@@ -79,7 +77,6 @@ layout: default
     });
     kwContainer.innerHTML = kwHtml;
 
-    // Click keyword → open gloss dialog
     kwContainer.addEventListener('click', function(e) {
       var tag = e.target.closest('.keyword-tag');
       if (!tag) return;
@@ -91,24 +88,31 @@ layout: default
       }
     });
   } else {
-    document.getElementById('keywords-section').style.display = 'none';
+    kwSection.style.display = 'none';
   }
 
   // ── Highlight current TOC item on scroll ──
   if (headings.length >= 2) {
-    var tocLinks = toc.querySelectorAll('a');
+    var tocItems = toc.querySelectorAll('.toc-item');
     var onScroll = function() {
-      var currentId = '';
+      var current = '';
       headings.forEach(function(h) {
         var rect = h.getBoundingClientRect();
-        if (rect.top <= 100) currentId = h.id;
+        if (rect.top <= 120) current = h.id;
       });
-      tocLinks.forEach(function(a) {
-        a.parentElement.classList.toggle('active', a.getAttribute('href') === '#' + currentId);
+      tocItems.forEach(function(li) {
+        var a = li.querySelector('a');
+        if (!a) return;
+        li.classList.toggle('active', a.getAttribute('href') === '#' + current);
       });
     };
     window.addEventListener('scroll', onScroll, { passive: true });
     onScroll();
+  }
+
+  // ── Hide sidebar if empty ──
+  if (tocSection.style.display === 'none' && kwSection.style.display === 'none') {
+    sidebar.style.display = 'none';
   }
 })();
 </script>
