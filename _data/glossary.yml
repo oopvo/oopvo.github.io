@@ -1,0 +1,64 @@
+- term: "MLA"
+  def: "Multi-head Latent Attention（多头潜在注意力）。将 Key/Value 缓存压缩到低维潜在空间（512维），相比标准 MHA 减少 98.6% 的 KV 缓存占用，是 DeepSeek 长上下文推理的关键技术。"
+  url: "/glossary/mla/"
+  cat: 模型架构
+
+- term: "MoE"
+  def: "Mixture of Experts（混合专家模型）。将模型分解为多个「专家」子网络，每个 token 仅激活部分专家，在相同计算量下大幅增加模型容量。DeepSeek-V3 总参数量 671B，每 token 仅激活 37B。"
+  url: "/glossary/moe/"
+  cat: 模型架构
+
+- term: "MTP"
+  def: "Multi-Token Prediction（多 Token 预测）。训练时让模型同时预测多个未来 token（而非仅下一个），强制学习更长距离依赖，推理时无额外开销。"
+  url: "/glossary/mtp/"
+  cat: 训练方法
+
+- term: "FP8"
+  def: "8-bit Floating Point（8 位浮点数格式）。相比 FP16 可减少 50% 显存占用和加速计算。DeepSeek-V3 全程使用 FP8 混合精度训练，显著降低成本。"
+  url: "/glossary/fp8/"
+  cat: 训练方法
+
+- term: "GRPO"
+  def: "Group Relative Policy Optimization（分组相对策略优化）。DeepSeek 自研的强化学习算法，无需依赖 Critic 模型，通过对同一 prompt 的多个 response 分组比较来估计优势函数。"
+  url: "/glossary/grpo/"
+  cat: 训练方法
+
+- term: "Auxiliary Loss"
+  def: "辅助损失函数。传统 MoE 训练中用于平衡各专家负载的额外损失项，需要调节权重超参数 α。DeepSeek-V3 提出了无辅助损失的动态负载均衡策略。"
+  url: "/glossary/auxiliary-loss/"
+  cat: 训练方法
+
+- term: "DSA"
+  def: "DeepSeek Sparse Attention（稀疏注意力）。两级注意力机制：闪电索引器快速粗筛 + 细粒度 token 精确选择，将注意力复杂度从 O(n²) 降至 O(n·k)。"
+  url: "/glossary/dsa/"
+  cat: 模型架构
+
+- term: "SFT"
+  def: "Supervised Fine-Tuning（监督微调）。使用人工标注的高质量数据对预训练模型进行指令微调，使其对齐人类偏好和指令遵循能力。"
+  url: "/glossary/sft/"
+  cat: 训练方法
+
+- term: "MoDE"
+  def: "Mixture of Depth Experts（深度混合专家）。DeepSeek-V4 引入的新型架构，沿深度维度分配不同计算密度的专家层，浅层用轻量专家快速处理，深层用重专家深度推理，总参数量 1.2T，每 token 仅激活 42B。"
+  url: "/glossary/mode/"
+  cat: 模型架构
+
+- term: "HyperMLA"
+  def: "Hyper-Scale Latent Attention（超大规模潜在注意力）。MLA 的下一代演进，将 KV 压缩维度从 512 扩展到 2048，结合层级式潜在编码，支持 1M+ token 的超长上下文窗口，KV 缓存仅为标准 MHA 的 0.5%。"
+  url: "/glossary/hypermla/"
+  cat: 模型架构
+
+- term: "Self-Play RL"
+  def: "自博弈强化学习。模型通过自我对弈生成训练数据→训练→评估的循环不断提升，无需外部标注。DeepSeek-V4 将其扩展到数学证明、代码合成和科学发现等复杂推理任务。"
+  url: "/glossary/selfplay-rl/"
+  cat: 训练方法
+
+- term: "AdaptiveMoE"
+  def: "自适应 MoE 路由。DeepSeek-V4 的改进路由机制：根据输入困难度动态调整激活专家数量，简单 token 激活 4 个专家，复杂 token 激活 16 个专家，平均激活参数降低 20% 的同时提升复杂任务表现。"
+  url: "/glossary/adaptivemoe/"
+  cat: 模型架构
+
+- term: "NeuralCache"
+  def: "神经缓存系统。DeepSeek-V4 引入的可学习缓存层，在潜在空间中对高频知识模式进行压缩缓存，对重复性推理请求可实现 5-10× 的延迟降低，相当于给模型配备了一个「语义级缓存」。"
+  url: "/glossary/neuralcache/"
+  cat: 模型架构

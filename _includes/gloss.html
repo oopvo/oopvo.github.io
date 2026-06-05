@@ -1,14 +1,7 @@
-<!-- Glossary: look up term, show clickable ref if found, plain text otherwise -->
-{%- assign found_term = false -%}
-{%- for entry in site.glossary -%}
-  {%- if entry.title == include.term -%}
-    {%- assign found_term = entry -%}
-    {%- break -%}
-  {%- endif -%}
-{%- endfor -%}
-{%- if found_term -%}
-  {%- assign excerpt = found_term.content | strip_html | truncate: 300 | escape -%}
-  <span class="gloss-ref" data-term="{{ include.term }}" data-def="{{ excerpt }}" data-url="{{ site.baseurl }}{{ found_term.url }}">{{ include.term }}</span>
+<!-- Glossary: look up term from _data/glossary.yml -->
+{%- assign found = site.data.glossary | where: "term", include.term | first -%}
+{%- if found -%}
+<span class="gloss-ref" data-term="{{ found.term }}" data-def="{{ found.def | escape }}" data-url="{{ site.baseurl }}{{ found.url }}">{{ found.term }}</span>
 {%- else -%}
-  {{- include.term -}}<!--GLOSS_DEBUG g={{ site.glossary | size }} p={{ site.posts | size }} t={{ include.term }}-->
+{{- include.term -}}
 {%- endif -%}
