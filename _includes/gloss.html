@@ -1,4 +1,4 @@
-<!-- Glossary: iterate site.glossary collection to find matching term -->
+<!-- Glossary: look up term, show clickable ref if found, plain text otherwise -->
 {%- assign found_term = false -%}
 {%- for entry in site.glossary -%}
   {%- if entry.title == include.term -%}
@@ -9,4 +9,6 @@
 {%- if found_term -%}
   {%- assign excerpt = found_term.content | strip_html | truncate: 300 | escape -%}
   <span class="gloss-ref" data-term="{{ include.term }}" data-def="{{ excerpt }}" data-url="{{ site.baseurl }}{{ found_term.url }}">{{ include.term }}</span>
+{%- else -%}
+  {{- include.term -}}
 {%- endif -%}
