@@ -1332,6 +1332,16 @@ body.has-bg {
       line-height: 1.4;
       box-shadow: var(--shadow-sm);
     }
+
+    // Images
+    img {
+      display: block;
+      max-width: 100%;
+      height: auto;
+      margin: 1.5em auto;
+      border-radius: 10px;
+      box-shadow: var(--shadow-sm);
+    }
   }
 
   .glossary-page-footer {
