@@ -1,5 +1,11 @@
-<!-- Glossary: look up term from site.glossary collection -->
-{%- assign found_term = site.glossary | where: "title", include.term | first -%}
+<!-- Glossary: iterate site.glossary collection to find matching term -->
+{%- assign found_term = false -%}
+{%- for entry in site.glossary -%}
+  {%- if entry.title == include.term -%}
+    {%- assign found_term = entry -%}
+    {%- break -%}
+  {%- endif -%}
+{%- endfor -%}
 {%- if found_term -%}
   {%- assign excerpt = found_term.content | strip_html | truncate: 300 | escape -%}
   <span class="gloss-ref" data-term="{{ include.term }}" data-def="{{ excerpt }}" data-url="{{ site.baseurl }}{{ found_term.url }}">{{ include.term }}</span>
