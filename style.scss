@@ -960,30 +960,65 @@ body {
   }
 }
 
-// ── Floating right sidebar (TOC + Keywords) ──
+// ── Right sidebar (TOC + Keywords) ──
+
+.post-with-sidebar {
+  display: grid;
+  grid-template-columns: 1fr 200px;
+  gap: 40px;
+  align-items: start;
+
+  @media (max-width: 1200px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.post-main {
+  min-width: 0;
+}
 
 .post-sidebar {
-  position: fixed !important;
-  top: 90px !important;
-  right: 20px !important;
-  width: 180px;
+  position: sticky;
+  top: 90px;
   max-height: calc(100vh - 110px);
   overflow-y: auto;
-  z-index: 50;
+
+  @media (max-width: 1200px) { display: none; }
 
   .sidebar-section {
     margin-bottom: 24px;
   }
 
-  .sidebar-title {
+  .sidebar-title, .sidebar-toggle {
     font-size: 11px;
     font-weight: 600;
     color: var(--text-muted);
     text-transform: uppercase;
     letter-spacing: 0.08em;
     margin: 0 0 10px 0;
-    padding-bottom: 6px;
+    padding: 0 0 6px 0;
     border-bottom: 1px solid var(--border-light);
+  }
+
+  .sidebar-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    cursor: pointer;
+    background: none;
+    border: none;
+    font-family: inherit;
+    text-align: left;
+
+    .toggle-icon {
+      font-size: 9px;
+      transition: transform 0.2s ease;
+    }
+
+    &:hover {
+      color: var(--text-link);
+    }
   }
 
   // TOC
@@ -1044,10 +1079,6 @@ body {
   &::-webkit-scrollbar { width: 3px; }
   &::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 2px; }
   &::-webkit-scrollbar-track { background: transparent; }
-}
-
-@media (max-width: 1300px) {
-  .post-sidebar { display: none !important; }
 }
 
 // ── Inline ref pill ──

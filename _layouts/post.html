@@ -3,44 +3,55 @@ layout: default
 ---
 
 <article class="post page-content">
-  <div class="post-header">
-    <h1>{{ page.title }}</h1>
-  </div>
+  <div class="post-with-sidebar">
+    <div class="post-main">
+      <div class="post-header">
+        <h1>{{ page.title }}</h1>
+      </div>
 
-  <div class="entry">
-    {{ content }}
-  </div>
+      <div class="entry">
+        {{ content }}
+      </div>
 
-  <div class="date">
-    {{ page.date | date: "%Y 年 %m 月 %d 日" }}
-  </div>
+      <div class="date">
+        {{ page.date | date: "%Y 年 %m 月 %d 日" }}
+      </div>
 
-  {% include disqus.html %}
+      {% include disqus.html %}
+    </div>
+
+    <aside class="post-sidebar" id="post-sidebar">
+      <div class="sidebar-section" id="toc-section">
+        <button class="sidebar-toggle" id="toc-toggle">
+          <span>📑 目录</span>
+          <span class="toggle-icon" id="toc-icon">▶</span>
+        </button>
+        <nav class="toc-list" id="toc" hidden></nav>
+      </div>
+      <div class="sidebar-section" id="keywords-section">
+        <h3 class="sidebar-title">🏷️ 关键词</h3>
+        <div class="keywords-list" id="keywords"></div>
+      </div>
+    </aside>
+  </div>
 </article>
-
-<aside class="post-sidebar" id="post-sidebar">
-  <div class="sidebar-section" id="toc-section">
-    <h3 class="sidebar-title">📑 目录</h3>
-    <nav class="toc-list" id="toc"></nav>
-  </div>
-  <div class="sidebar-section" id="keywords-section">
-    <h3 class="sidebar-title">🏷️ 关键词</h3>
-    <div class="keywords-list" id="keywords"></div>
-  </div>
-</aside>
 
 <script>
 (function() {
   var entry = document.querySelector('.entry');
   if (!entry) return;
-  var sidebar = document.getElementById('post-sidebar');
 
-  // ── TOC: scan headings ──
+  // ── Prepare headings ──
   var headings = entry.querySelectorAll('h1, h2, h3');
   var toc = document.getElementById('toc');
   var tocSection = document.getElementById('toc-section');
+  var tocToggle = document.getElementById('toc-toggle');
+  var tocIcon = document.getElementById('toc-icon');
 
-  if (headings.length >= 2) {
+  if (headings.length < 2) {
+    tocSection.style.display = 'none';
+  } else {
+    // Build TOC
     var tocHtml = '<ul>';
     headings.forEach(function(h) {
       if (!h.id) {
@@ -54,11 +65,45 @@ layout: default
     });
     tocHtml += '</ul>';
     toc.innerHTML = tocHtml;
-  } else {
-    tocSection.style.display = 'none';
+
+    // Manual toggle: click header to expand/collapse
+    var expanded = false;
+    tocToggle.addEventListener('click', function() {
+      expanded = !expanded;
+      toc.hidden = !expanded;
+      tocIcon.textContent = expanded ? '▼' : '▶';
+    });
+
+    // Auto-expand on scroll
+    var tocItems = toc.querySelectorAll('.toc-item');
+    var autoExpanded = false;
+
+    var onScroll = function() {
+      var current = '';
+      headings.forEach(function(h) {
+        var rect = h.getBoundingClientRect();
+        if (rect.top <= 120) current = h.id;
+      });
+
+      // Highlight current
+      tocItems.forEach(function(li) {
+        var a = li.querySelector('a');
+        if (!a) return;
+        li.classList.toggle('active', a.getAttribute('href') === '#' + current);
+      });
+
+      // Auto-expand when scrolling reaches a section
+      if (current && !expanded) {
+        expanded = true;
+        toc.hidden = false;
+        tocIcon.textContent = '▼';
+      }
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
   }
 
-  // ── Keywords: collect unique gloss-ref terms ──
+  // ── Keywords ──
   var refs = entry.querySelectorAll('.gloss-ref');
   var kwContainer = document.getElementById('keywords');
   var kwSection = document.getElementById('keywords-section');
@@ -91,28 +136,9 @@ layout: default
     kwSection.style.display = 'none';
   }
 
-  // ── Highlight current TOC item on scroll ──
-  if (headings.length >= 2) {
-    var tocItems = toc.querySelectorAll('.toc-item');
-    var onScroll = function() {
-      var current = '';
-      headings.forEach(function(h) {
-        var rect = h.getBoundingClientRect();
-        if (rect.top <= 120) current = h.id;
-      });
-      tocItems.forEach(function(li) {
-        var a = li.querySelector('a');
-        if (!a) return;
-        li.classList.toggle('active', a.getAttribute('href') === '#' + current);
-      });
-    };
-    window.addEventListener('scroll', onScroll, { passive: true });
-    onScroll();
-  }
-
-  // ── Hide sidebar if empty ──
+  // Hide sidebar if both sections empty
   if (tocSection.style.display === 'none' && kwSection.style.display === 'none') {
-    sidebar.style.display = 'none';
+    document.getElementById('post-sidebar').style.display = 'none';
   }
 })();
 </script>
