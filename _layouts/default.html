@@ -14,91 +14,94 @@
   </head>
 
   <body>
-    <!-- Background overlay for wallpaper support -->
+    <!-- Background overlay for wallpaper support (below content) -->
     <div id="bg-overlay"></div>
 
-    <!-- Navigation -->
-    <div class="wrapper-masthead">
-      <div class="container">
-        <header class="masthead">
-          <a href="{{ site.baseurl }}/" class="site-logo">{{ site.name }}</a>
+    <!-- Page content wrapper (above wallpaper) -->
+    <div id="page-content">
+      <!-- Navigation -->
+      <div class="wrapper-masthead">
+        <div class="container">
+          <header class="masthead">
+            <a href="{{ site.baseurl }}/" class="site-logo">{{ site.name }}</a>
 
-          <nav>
-            <a href="{{ site.baseurl }}/">Blog</a>
-            <a href="{{ site.baseurl }}/about">About</a>
-            <a href="{{ site.baseurl }}/glossary">Glossary</a>
-            <button class="theme-toggle" id="theme-toggle" aria-label="Switch between dark and light mode" title="Switch theme">
-              <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="12" cy="12" r="5"></circle>
-                <line x1="12" y1="1" x2="12" y2="3"></line>
-                <line x1="12" y1="21" x2="12" y2="23"></line>
-                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-                <line x1="1" y1="12" x2="3" y2="12"></line>
-                <line x1="21" y1="12" x2="23" y2="12"></line>
-                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-              </svg>
-              <svg class="moon-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none">
-                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-              </svg>
-            </button>
-          </nav>
-        </header>
-      </div>
-    </div>
-
-    <!-- Main content -->
-    <div id="main" role="main" class="container">
-      {{ content }}
-    </div>
-
-    <!-- Footer -->
-    <div class="wrapper-footer">
-      <div class="container">
-        <footer class="footer"></footer>
-      </div>
-    </div>
-
-    <!-- Settings -->
-    <div class="settings-backdrop" id="settings-backdrop"></div>
-    <button class="settings-toggle" id="settings-toggle" aria-label="Open settings" title="Settings">
-      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <circle cx="12" cy="12" r="3"></circle>
-        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
-      </svg>
-    </button>
-    <div class="settings-panel" id="settings-panel">
-      <h3>Page Settings</h3>
-      <div class="setting-group">
-        <div class="toggle-switch">
-          <label>Background Image</label>
-          <div class="toggle-track" id="bg-toggle">
-            <div class="toggle-knob"></div>
-          </div>
+            <nav>
+              <a href="{{ site.baseurl }}/">Blog</a>
+              <a href="{{ site.baseurl }}/about">About</a>
+              <a href="{{ site.baseurl }}/glossary">Glossary</a>
+              <button class="theme-toggle" id="theme-toggle" aria-label="Switch between dark and light mode" title="Switch theme">
+                <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="5"></circle>
+                  <line x1="12" y1="1" x2="12" y2="3"></line>
+                  <line x1="12" y1="21" x2="12" y2="23"></line>
+                  <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                  <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                  <line x1="1" y1="12" x2="3" y2="12"></line>
+                  <line x1="21" y1="12" x2="23" y2="12"></line>
+                  <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                  <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                </svg>
+                <svg class="moon-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none">
+                  <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                </svg>
+              </button>
+            </nav>
+          </header>
         </div>
       </div>
-      <div class="setting-group" id="wallpaper-group">
-        <label>Choose Wallpaper</label>
-        <div class="wallpaper-list" id="wallpaper-list"></div>
-      </div>
-      <div class="setting-group" id="opacity-group">
-        <label>Overlay Dark</label>
-        <input type="range" id="opacity-slider" min="0" max="80" value="30">
-        <div class="opacity-value" id="opacity-value">30%</div>
-      </div>
-    </div>
 
-    <!-- Glossary dialog -->
-    <div class="gloss-dialog-wrap" id="gloss-dialog-wrap" hidden>
-      <div class="gloss-dialog-backdrop" id="gloss-dialog-backdrop"></div>
-      <div class="gloss-dialog" id="gloss-dialog" role="dialog" aria-modal="true">
-        <button class="gloss-dialog-close" id="gloss-dialog-close" aria-label="关闭">✕</button>
-        <div class="gloss-dialog-term" id="gloss-dialog-term"></div>
-        <div class="gloss-dialog-def" id="gloss-dialog-def"></div>
-        <a class="gloss-dialog-link" id="gloss-dialog-link" target="_blank">查看详情 →</a>
+      <!-- Main content -->
+      <div id="main" role="main" class="container">
+        {{ content }}
       </div>
-    </div>
+
+      <!-- Footer -->
+      <div class="wrapper-footer">
+        <div class="container">
+          <footer class="footer"></footer>
+        </div>
+      </div>
+
+      <!-- Settings -->
+      <div class="settings-backdrop" id="settings-backdrop"></div>
+      <button class="settings-toggle" id="settings-toggle" aria-label="Open settings" title="Settings">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="3"></circle>
+          <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+        </svg>
+      </button>
+      <div class="settings-panel" id="settings-panel">
+        <h3>Page Settings</h3>
+        <div class="setting-group">
+          <div class="toggle-switch">
+            <label>Background Image</label>
+            <div class="toggle-track" id="bg-toggle">
+              <div class="toggle-knob"></div>
+            </div>
+          </div>
+        </div>
+        <div class="setting-group" id="wallpaper-group">
+          <label>Choose Wallpaper</label>
+          <div class="wallpaper-list" id="wallpaper-list"></div>
+        </div>
+        <div class="setting-group" id="opacity-group">
+          <label>Overlay Dark</label>
+          <input type="range" id="opacity-slider" min="0" max="80" value="30">
+          <div class="opacity-value" id="opacity-value">30%</div>
+        </div>
+      </div>
+
+      <!-- Glossary dialog -->
+      <div class="gloss-dialog-wrap" id="gloss-dialog-wrap" hidden>
+        <div class="gloss-dialog-backdrop" id="gloss-dialog-backdrop"></div>
+        <div class="gloss-dialog" id="gloss-dialog" role="dialog" aria-modal="true">
+          <button class="gloss-dialog-close" id="gloss-dialog-close" aria-label="关闭">✕</button>
+          <div class="gloss-dialog-term" id="gloss-dialog-term"></div>
+          <div class="gloss-dialog-def" id="gloss-dialog-def"></div>
+          <a class="gloss-dialog-link" id="gloss-dialog-link" target="_blank">查看详情 →</a>
+        </div>
+      </div>
+    </div><!-- /#page-content -->
 
     {% include analytics.html %}
 
