@@ -14,10 +14,7 @@
   </head>
 
   <body>
-    <!-- Background overlay for wallpaper support (below content) -->
-    <div id="bg-overlay"></div>
-
-    <!-- Page content wrapper (above wallpaper) -->
+    <!-- Page content wrapper -->
     <div id="page-content">
       <!-- Navigation -->
       <div class="wrapper-masthead">
@@ -169,8 +166,7 @@
 
       // Background settings
       (function() {
-        var overlay = document.getElementById('bg-overlay');
-        var body = document.body;
+        var html = document.documentElement;
         var toggleBtn = document.getElementById('settings-toggle');
         var panel = document.getElementById('settings-panel');
         var backdrop = document.getElementById('settings-backdrop');
@@ -218,14 +214,12 @@
 
         function applyBackground() {
           if (state.enabled && state.wallpaper) {
-            overlay.style.backgroundImage = 'url(' + state.wallpaper + ')';
-            overlay.style.setProperty('--bg-tint-opacity', (state.tint / 100).toString());
-            overlay.classList.add('active');
-            body.classList.add('has-bg');
+            html.style.backgroundImage = 'url(' + state.wallpaper + ')';
+            html.style.setProperty('--bg-tint-opacity', (state.tint / 100).toString());
+            html.classList.add('wallpaper-active');
           } else {
-            overlay.classList.remove('active');
-            body.classList.remove('has-bg');
-            overlay.style.backgroundImage = '';
+            html.classList.remove('wallpaper-active');
+            html.style.backgroundImage = '';
           }
         }
 
