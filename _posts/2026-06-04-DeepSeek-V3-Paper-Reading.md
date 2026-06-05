@@ -324,7 +324,7 @@ DeepSeek-V3 在 **所有开源模型中全面领先**，闭源模型中与 GPT-4
 
 ```
 标准注意力:      每个 token 关注所有 past tokens → O(n²)
-{% include gloss.html term="DSA" %} 注意力:     两级筛选机制
+DSA 注意力:     两级筛选机制
 
 第一级 — 闪电索引器（Lightning Indexer）:
   快速粗筛 → 为每个 query 挑选候选 key
