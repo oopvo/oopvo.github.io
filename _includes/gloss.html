@@ -10,5 +10,5 @@
   {%- assign excerpt = found_term.content | strip_html | truncate: 300 | escape -%}
   <span class="gloss-ref" data-term="{{ include.term }}" data-def="{{ excerpt }}" data-url="{{ site.baseurl }}{{ found_term.url }}">{{ include.term }}</span>
 {%- else -%}
-  {{- include.term -}}
+  {{- include.term -}}<!--GLOSS_DEBUG g={{ site.glossary | size }} p={{ site.posts | size }} t={{ include.term }}-->
 {%- endif -%}
