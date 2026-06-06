@@ -93,3 +93,4 @@ $$\mathcal L_{total}=\mathcal L_{main}+\sum_{k=1}^n w_k\cdot\mathcal L_{mtp,k}$$
 2. **级联MTP实现复杂**：因果串联+Embedding残差融合，算子定制成本高于Meta并行MTP；
 3. **短文本收益有限**：生成≤512token短句，加速提升不明显，长文本(>4K)收益爆炸。
 
+[text](https://zhuanlan.zhihu.com/p/18056041194) 这篇文章很好

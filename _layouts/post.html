@@ -7,17 +7,20 @@ layout: default
     <h1>{{ page.title }}</h1>
   </div>
 
-  <!-- In-article TOC + Keywords -->
-  <div class="post-toc-bar" id="toc-section">
-    <button class="toc-bar-toggle" id="toc-toggle">
-      <span class="toc-bar-label">📑 目录</span>
-      <span class="toc-bar-icon" id="toc-icon">▶</span>
+  <!-- TOC card -->
+  <div class="toc-card" id="toc-section">
+    <button class="toc-card-header" id="toc-toggle">
+      <span>📑 目录</span>
+      <span class="toc-card-count" id="toc-count"></span>
+      <span class="toc-card-arrow" id="toc-arrow">▶</span>
     </button>
-    <nav class="toc-bar-list" id="toc" hidden></nav>
-    <div class="toc-bar-keywords" id="keywords-section">
-      <span class="toc-bar-kw-label">🏷️ </span>
-      <span class="keywords-list" id="keywords"></span>
-    </div>
+    <nav class="toc-card-body" id="toc" hidden></nav>
+  </div>
+
+  <!-- Keywords card -->
+  <div class="kw-card" id="keywords-section">
+    <div class="kw-card-header">🏷️ 关键词</div>
+    <div class="kw-card-body" id="keywords"></div>
   </div>
 
   <div class="entry">
@@ -36,32 +39,35 @@ layout: default
   var entry = document.querySelector('.entry');
   if (!entry) return;
 
+  // ── TOC ──
   var headings = entry.querySelectorAll('h1, h2, h3');
   var toc = document.getElementById('toc');
   var tocSection = document.getElementById('toc-section');
   var tocToggle = document.getElementById('toc-toggle');
-  var tocIcon = document.getElementById('toc-icon');
+  var tocArrow = document.getElementById('toc-arrow');
+  var tocCount = document.getElementById('toc-count');
 
-  // ── TOC ──
   if (headings.length >= 2) {
     var html = '<ul>';
     headings.forEach(function(h) {
       if (!h.id) {
         h.id = h.textContent.toLowerCase().replace(/[^a-z0-9一-鿿]+/g, '-').replace(/^-|-$/g, '');
       }
-      html += '<li class="toc-item toc-' + h.tagName.toLowerCase() + '"><a href="#' + h.id + '">' + h.textContent + '</a></li>';
+      html += '<li class="toc-i toc-' + h.tagName.toLowerCase() + '"><a href="#' + h.id + '">' + h.textContent + '</a></li>';
     });
     html += '</ul>';
     toc.innerHTML = html;
+    tocCount.textContent = headings.length + ' 章节';
 
     var expanded = false;
     tocToggle.addEventListener('click', function() {
       expanded = !expanded;
       toc.hidden = !expanded;
-      tocIcon.textContent = expanded ? '▼' : '▶';
+      tocArrow.textContent = expanded ? '▼' : '▶';
+      tocToggle.classList.toggle('open', expanded);
     });
 
-    var tocItems = toc.querySelectorAll('.toc-item');
+    var tocItems = toc.querySelectorAll('.toc-i');
     var onScroll = function() {
       var current = '';
       headings.forEach(function(h) {
@@ -70,12 +76,13 @@ layout: default
       tocItems.forEach(function(li) {
         var a = li.querySelector('a');
         if (!a) return;
-        li.classList.toggle('active', a.getAttribute('href') === '#' + current);
+        li.classList.toggle('on', a.getAttribute('href') === '#' + current);
       });
       if (current && !expanded) {
         expanded = true;
         toc.hidden = false;
-        tocIcon.textContent = '▼';
+        tocArrow.textContent = '▼';
+        tocToggle.classList.add('open');
       }
     };
     window.addEventListener('scroll', onScroll, { passive: true });
@@ -95,15 +102,20 @@ layout: default
       var term = ref.dataset.term;
       if (!seen[term]) {
         seen[term] = true;
-        var def = ref.dataset.def || '', url = ref.dataset.url || '';
-        kw.innerHTML += '<span class="keyword-tag" data-term="' + encodeURIComponent(term) + '" data-def="' + encodeURIComponent(def) + '" data-url="' + encodeURIComponent(url) + '">' + term + '</span> ';
+        var span = document.createElement('span');
+        span.className = 'kw-tag';
+        span.textContent = term;
+        span.dataset.term = term;
+        span.dataset.def = ref.dataset.def || '';
+        span.dataset.url = ref.dataset.url || '';
+        kw.appendChild(span);
       }
     });
     kw.addEventListener('click', function(e) {
-      var tag = e.target.closest('.keyword-tag');
+      var tag = e.target.closest('.kw-tag');
       if (!tag) return;
       if (window.glossOpen) {
-        window.glossOpen(decodeURIComponent(tag.dataset.term), decodeURIComponent(tag.dataset.def), decodeURIComponent(tag.dataset.url));
+        window.glossOpen(tag.dataset.term, tag.dataset.def, tag.dataset.url);
       }
     });
   } else {
