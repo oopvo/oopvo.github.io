@@ -2,8 +2,8 @@
 layout: default
 ---
 
-<div class="post-page-layout">
-  <article class="post page-content">
+<div style="display:flex; align-items:flex-start; gap:32px;">
+  <article class="post page-content" style="flex:1; min-width:0;">
     <div class="post-header">
       <h1>{{ page.title }}</h1>
     </div>
@@ -19,7 +19,7 @@ layout: default
     {% include disqus.html %}
   </article>
 
-  <aside class="post-sidebar" id="post-sidebar" style="position:fixed!important;top:90px!important;right:20px!important;width:220px;z-index:100;max-height:calc(100vh - 110px);overflow-y:auto;">
+  <aside class="post-sidebar" id="post-sidebar" style="flex-shrink:0; width:200px; position:sticky; top:90px; max-height:calc(100vh - 110px); overflow-y:auto;">
     <div class="sidebar-card" id="toc-section">
       <button class="sidebar-toggle" id="toc-toggle">
         <span>📑 目录</span>
@@ -28,7 +28,7 @@ layout: default
       <nav class="toc-list" id="toc" hidden></nav>
     </div>
     <div class="sidebar-card" id="keywords-section">
-      <h3 class="sidebar-card-title">🏷️ 关键词</h3>
+      <div class="sidebar-card-title">🏷️ 关键词</div>
       <div class="keywords-list" id="keywords"></div>
     </div>
   </aside>
@@ -39,7 +39,7 @@ layout: default
   var entry = document.querySelector('.entry');
   if (!entry) return;
 
-  // ── Prepare headings ──
+  // ── TOC ──
   var headings = entry.querySelectorAll('h1, h2, h3');
   var toc = document.getElementById('toc');
   var tocSection = document.getElementById('toc-section');
@@ -50,10 +50,7 @@ layout: default
     var tocHtml = '<ul>';
     headings.forEach(function(h) {
       if (!h.id) {
-        h.id = h.textContent
-          .toLowerCase()
-          .replace(/[^a-z0-9一-鿿]+/g, '-')
-          .replace(/^-|-$/g, '');
+        h.id = h.textContent.toLowerCase().replace(/[^a-z0-9一-鿿]+/g, '-').replace(/^-|-$/g, '');
       }
       var level = h.tagName.toLowerCase();
       tocHtml += '<li class="toc-item toc-' + level + '"><a href="#' + h.id + '">' + h.textContent + '</a></li>';
@@ -61,7 +58,6 @@ layout: default
     tocHtml += '</ul>';
     toc.innerHTML = tocHtml;
 
-    // Manual toggle
     var expanded = false;
     tocToggle.addEventListener('click', function() {
       expanded = !expanded;
@@ -69,7 +65,6 @@ layout: default
       tocIcon.textContent = expanded ? '▼' : '▶';
     });
 
-    // Auto-expand + highlight on scroll
     var tocItems = toc.querySelectorAll('.toc-item');
     var onScroll = function() {
       var current = '';
@@ -99,14 +94,12 @@ layout: default
   var kwSection = document.getElementById('keywords-section');
 
   if (refs.length > 0) {
-    var seen = {};
-    var kwHtml = '';
+    var seen = {}, kwHtml = '';
     refs.forEach(function(ref) {
       var term = ref.dataset.term;
       if (!seen[term]) {
         seen[term] = true;
-        var def = ref.dataset.def || '';
-        var url = ref.dataset.url || '';
+        var def = ref.dataset.def || '', url = ref.dataset.url || '';
         kwHtml += '<span class="keyword-tag" data-term="' + encodeURIComponent(term) + '" data-def="' + encodeURIComponent(def) + '" data-url="' + encodeURIComponent(url) + '">' + term + '</span>';
       }
     });
