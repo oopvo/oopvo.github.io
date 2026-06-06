@@ -8,7 +8,7 @@ date: 2026-06-06
 
 ## 概述
 
-**{% include gloss.html term="Qwen" %}**（通义千问）是阿里巴巴开发的大语言模型系列。2025 年 4 月发布的 **Qwen3**（Qwen 2.5 → Qwen 3）是一次重大升级，采用混合专家（{% include gloss.html term="MoE" %}）架构，在多项基准测试上与 GPT-4o 和 {% include gloss.html term="DeepSeek-V3" %} 比肩。
+**{% include gloss.html term="Qwen" %}**（通义千问）是阿里巴巴开发的大语言模型系列。2025 年 4 月发布的 **Qwen3**（Qwen 2.5 → Qwen 3）是一次重大升级，采用混合专家（{% include gloss.html term="MoE" %}）架构，在多项基准测试上与 GPT-4o 和 DeepSeek-V3 比肩。
 
 Qwen3 继承了 {% include gloss.html term="Qwen" %} 系列的多语言优势（尤其中英双语），并引入了先进的 {% include gloss.html term="GQA" %}、{% include gloss.html term="RMSNorm" %} 和 {% include gloss.html term="SwiGLU" %} 等技术创新。
 

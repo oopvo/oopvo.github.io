@@ -59,7 +59,7 @@ GQA（Llama 2 70B / Llama 3）:
 
 ---
 
-## 二、{% include gloss.html term="SwiGLU"}：门控激活函数
+## 二、{% include gloss.html term="SwiGLU" %}：门控激活函数
 
 {% include gloss.html term="Llama" %} 全系列使用 {% include gloss.html term="SwiGLU" %} 作为激活函数，替代了早期模型常用的 ReLU 或 GELU。
 

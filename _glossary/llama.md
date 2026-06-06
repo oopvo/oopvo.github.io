@@ -13,7 +13,7 @@ related_posts:
 - **{% include gloss.html term="GQA" %}** — Llama 2 70B 起引入分组查询注意力，降低 KV 缓存
 - **{% include gloss.html term="SwiGLU" %}** — Llama 全系列使用的激活函数
 - **{% include gloss.html term="RMSNorm" %}** — 替代 LayerNorm 的归一化层
-- **{% include gloss.html term="RoPE" %}** — 旋转位置编码
+- **RoPE** — 旋转位置编码
 
 ## Llama 3 405B 亮点
 

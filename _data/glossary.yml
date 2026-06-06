@@ -160,12 +160,6 @@
   group: 基础架构
   order: 5
 
-- term: "GQA"
-  def: "Grouped-Query Attention（分组查询注意力）。MHA 和 MQA 的折中方案：将 Query 头分组，每组共享一个 Key/Value 头。在保持模型质量的同时减少 KV 缓存和访存开销，被 Llama 2/3、Gemma 等模型采用。"
-  url: "/glossary/gqa/"
-  group: 注意力演进
-  order: 2
-
 - term: "SwiGLU"
   def: "Swish-Gated Linear Unit（门控线性单元）。LLaMA 使用的激活函数，结合 Swish 和 GLU 的优势：SwiGLU(x) = Swish(xW) ⊗ (xV)。相比 ReLU 能更好捕捉复杂特征，是现代大模型的标配激活函数。"
   url: "/glossary/swiglu/"
