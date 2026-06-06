@@ -109,38 +109,38 @@
 - term: "FP8"
   def: "8-bit Floating Point（8 位浮点数格式）。相比 FP16 减少 50% 显存，相比 FP32 减少 75%。DeepSeek-V3 全程使用 FP8 混合精度训练，显著降低训练成本（仅 $5.6M）。"
   url: "/glossary/fp8/"
-  group: 训练流程
+  group: 训练优化
   order: 1
-
-- term: "SFT"
-  def: "Supervised Fine-Tuning（监督微调）。使用人工标注的高质量指令数据对预训练模型进行微调，使其对齐人类偏好和指令遵循能力。是预训练和强化学习之间的关键桥梁。"
-  url: "/glossary/sft/"
-  group: 训练流程
-  order: 2
-
-- term: "PPO"
-  def: "Proximal Policy Optimization（近端策略优化）。OpenAI 提出的经典强化学习算法，通过裁剪策略更新幅度来保证训练稳定性。在大模型 RLHF 阶段被广泛使用，但需要维护一个 Critic 价值模型。"
-  url: "/glossary/ppo/"
-  group: 训练流程
-  order: 3
-
-- term: "GRPO"
-  def: "Group Relative Policy Optimization（分组相对策略优化）。DeepSeek 自研的强化学习算法，无需依赖 Critic 模型，通过对同一 prompt 的多个 response 分组比较来估计优势函数，大幅简化 RL 训练流程。"
-  url: "/glossary/grpo/"
-  group: 训练流程
-  order: 4
-
-- term: "Self-Play RL"
-  def: "自博弈强化学习。模型通过自我对弈生成训练数据→训练→评估的循环不断提升，无需外部标注。DeepSeek-V4 将其扩展到数学证明、代码合成和科学发现等复杂推理任务。"
-  url: "/glossary/selfplay-rl/"
-  group: 训练流程
-  order: 5
 
 - term: "MTP"
   def: "Multi-Token Prediction（多 Token 预测）。训练时让模型同时预测多个未来 token（而非仅下一个），强制学习更长距离依赖，推理时无额外开销。在代码生成和数学推理上提升显著。"
   url: "/glossary/mtp/"
-  group: 训练流程
-  order: 6
+  group: 训练优化
+  order: 2
+
+- term: "SFT"
+  def: "Supervised Fine-Tuning（监督微调）。使用人工标注的高质量指令数据对预训练模型进行微调，使其对齐人类偏好和指令遵循能力。是预训练和强化学习之间的关键桥梁。"
+  url: "/glossary/sft/"
+  group: 对齐训练
+  order: 1
+
+- term: "PPO"
+  def: "Proximal Policy Optimization（近端策略优化）。OpenAI 提出的经典强化学习算法，通过裁剪策略更新幅度来保证训练稳定性。在大模型 RLHF 阶段被广泛使用，但需要维护一个 Critic 价值模型。"
+  url: "/glossary/ppo/"
+  group: 对齐训练
+  order: 2
+
+- term: "GRPO"
+  def: "Group Relative Policy Optimization（分组相对策略优化）。DeepSeek 自研的强化学习算法，无需依赖 Critic 模型，通过对同一 prompt 的多个 response 分组比较来估计优势函数，大幅简化 RL 训练流程。"
+  url: "/glossary/grpo/"
+  group: 对齐训练
+  order: 3
+
+- term: "Self-Play RL"
+  def: "自博弈强化学习。模型通过自我对弈生成训练数据→训练→评估的循环不断提升，无需外部标注。DeepSeek-V4 将其扩展到数学证明、代码合成和科学发现等复杂推理任务。"
+  url: "/glossary/selfplay-rl/"
+  group: 对齐训练
+  order: 4
 
 - term: "NeuralCache"
   def: "神经缓存系统。DeepSeek-V4 引入的可学习缓存层，在潜在空间中对高频知识模式进行压缩缓存，对重复性推理请求可实现 5-10× 延迟降低，相当于给模型配备了一个「语义级缓存」。"
