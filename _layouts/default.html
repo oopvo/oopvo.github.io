@@ -94,6 +94,7 @@
         <div class="gloss-dialog" id="gloss-dialog" role="dialog" aria-modal="true">
           <button class="gloss-dialog-close" id="gloss-dialog-close" aria-label="关闭">✕</button>
           <div class="gloss-dialog-term" id="gloss-dialog-term"></div>
+          <div class="gloss-dialog-progress" id="gloss-dialog-progress"></div>
           <div class="gloss-dialog-def" id="gloss-dialog-def"></div>
           <a class="gloss-dialog-link" id="gloss-dialog-link" target="_blank">查看详情 →</a>
         </div>
@@ -101,6 +102,10 @@
     </div><!-- /#page-content -->
 
     {% include analytics.html %}
+
+    <script id="glossary-data" type="application/json">
+      {{ site.data.glossary | jsonify }}
+    </script>
 
     <script>
       // Scroll-aware nav
@@ -308,19 +313,62 @@
         var wrap = document.getElementById('gloss-dialog-wrap');
         var backdrop = document.getElementById('gloss-dialog-backdrop');
         var termEl = document.getElementById('gloss-dialog-term');
+        var progressEl = document.getElementById('gloss-dialog-progress');
         var defEl = document.getElementById('gloss-dialog-def');
         var linkEl = document.getElementById('gloss-dialog-link');
         var closeBtn = document.getElementById('gloss-dialog-close');
 
+        // Parse glossary data from JSON script
+        var GLOSS = {};
+        try {
+          var script = document.getElementById('glossary-data');
+          if (script) {
+            var data = JSON.parse(script.textContent);
+            if (Array.isArray(data)) {
+              data.forEach(function(e) { GLOSS[e.term] = e; });
+            }
+          }
+        } catch(e) {}
+
         function open(term, def, url) {
           termEl.textContent = term;
-          defEl.textContent = def;
-          linkEl.href = url || '{{ site.baseurl }}/glossary/';
+          linkEl.href = url || '/glossary/';
+
+          // Build progressive group display
+          var entry = GLOSS[term];
+          var groupHtml = '';
+          if (entry && entry.group) {
+            var items = Object.keys(GLOSS)
+              .filter(function(t) { return GLOSS[t].group === entry.group; })
+              .sort(function(a, b) { return GLOSS[a].order - GLOSS[b].order; });
+
+            if (items.length > 1) {
+              groupHtml = '<div class="gloss-group-label">── ' + entry.group + ' ──</div><div class="gloss-group">';
+              items.forEach(function(t) {
+                var e = GLOSS[t];
+                var cls = t === term ? 'gloss-g-i active' : 'gloss-g-i';
+                var dot = t === term ? '●' : '○';
+                groupHtml += '<div class="' + cls + '" data-term="' + t + '" data-def="' + (e.def || '').replace(/"/g, '&quot;') + '" data-url="' + (e.url || '') + '">' +
+                  '<span class="gloss-g-dot">' + dot + '</span> ' + t + '</div>';
+              });
+              groupHtml += '</div>';
+            }
+          }
+          progressEl.innerHTML = groupHtml;
+
+          // Show definition
+          defEl.textContent = def || (entry ? entry.def : '');
+
+          // Click a group item to switch
+          progressEl.addEventListener('click', function(ev) {
+            var item = ev.target.closest('.gloss-g-i');
+            if (!item || item.classList.contains('active')) return;
+            open(item.dataset.term, item.dataset.def, item.dataset.url);
+          });
+
           wrap.hidden = false;
           document.body.style.overflow = 'hidden';
-          requestAnimationFrame(function() {
-            wrap.classList.add('open');
-          });
+          requestAnimationFrame(function() { wrap.classList.add('open'); });
         }
 
         function close() {

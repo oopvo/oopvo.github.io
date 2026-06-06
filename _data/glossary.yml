@@ -1,119 +1,149 @@
-- term: "MLA"
-  def: "Multi-head Latent Attention（多头潜在注意力）。将 Key/Value 缓存压缩到低维潜在空间（512维），相比标准 MHA 减少 98.6% 的 KV 缓存占用，是 DeepSeek 长上下文推理的关键技术。"
-  url: "/glossary/mla/"
-  cat: 模型架构
-
-- term: "MoE"
-  def: "Mixture of Experts（混合专家模型）。将模型分解为多个「专家」子网络，每个 token 仅激活部分专家，在相同计算量下大幅增加模型容量。DeepSeek-V3 总参数量 671B，每 token 仅激活 37B。"
-  url: "/glossary/moe/"
-  cat: 模型架构
-
-- term: "MTP"
-  def: "Multi-Token Prediction（多 Token 预测）。训练时让模型同时预测多个未来 token（而非仅下一个），强制学习更长距离依赖，推理时无额外开销。"
-  url: "/glossary/mtp/"
-  cat: 训练方法
-
-- term: "FP8"
-  def: "8-bit Floating Point（8 位浮点数格式）。相比 FP16 可减少 50% 显存占用和加速计算。DeepSeek-V3 全程使用 FP8 混合精度训练，显著降低成本。"
-  url: "/glossary/fp8/"
-  cat: 训练方法
-
-- term: "GRPO"
-  def: "Group Relative Policy Optimization（分组相对策略优化）。DeepSeek 自研的强化学习算法，无需依赖 Critic 模型，通过对同一 prompt 的多个 response 分组比较来估计优势函数。"
-  url: "/glossary/grpo/"
-  cat: 训练方法
-
-- term: "Auxiliary Loss"
-  def: "辅助损失函数。传统 MoE 训练中用于平衡各专家负载的额外损失项，需要调节权重超参数 α。DeepSeek-V3 提出了无辅助损失的动态负载均衡策略。"
-  url: "/glossary/auxiliary-loss/"
-  cat: 训练方法
-
-- term: "DSA"
-  def: "DeepSeek Sparse Attention（稀疏注意力）。两级注意力机制：闪电索引器快速粗筛 + 细粒度 token 精确选择，将注意力复杂度从 O(n²) 降至 O(n·k)。"
-  url: "/glossary/dsa/"
-  cat: 模型架构
-
-- term: "SFT"
-  def: "Supervised Fine-Tuning（监督微调）。使用人工标注的高质量数据对预训练模型进行指令微调，使其对齐人类偏好和指令遵循能力。"
-  url: "/glossary/sft/"
-  cat: 训练方法
-
-- term: "MoDE"
-  def: "Mixture of Depth Experts（深度混合专家）。DeepSeek-V4 引入的新型架构，沿深度维度分配不同计算密度的专家层，浅层用轻量专家快速处理，深层用重专家深度推理，总参数量 1.2T，每 token 仅激活 42B。"
-  url: "/glossary/mode/"
-  cat: 模型架构
-
-- term: "HyperMLA"
-  def: "Hyper-Scale Latent Attention（超大规模潜在注意力）。MLA 的下一代演进，将 KV 压缩维度从 512 扩展到 2048，结合层级式潜在编码，支持 1M+ token 的超长上下文窗口，KV 缓存仅为标准 MHA 的 0.5%。"
-  url: "/glossary/hypermla/"
-  cat: 模型架构
-
-- term: "Self-Play RL"
-  def: "自博弈强化学习。模型通过自我对弈生成训练数据→训练→评估的循环不断提升，无需外部标注。DeepSeek-V4 将其扩展到数学证明、代码合成和科学发现等复杂推理任务。"
-  url: "/glossary/selfplay-rl/"
-  cat: 训练方法
-
-- term: "AdaptiveMoE"
-  def: "自适应 MoE 路由。DeepSeek-V4 的改进路由机制：根据输入困难度动态调整激活专家数量，简单 token 激活 4 个专家，复杂 token 激活 16 个专家，平均激活参数降低 20% 的同时提升复杂任务表现。"
-  url: "/glossary/adaptivemoe/"
-  cat: 模型架构
-
-- term: "NeuralCache"
-  def: "神经缓存系统。DeepSeek-V4 引入的可学习缓存层，在潜在空间中对高频知识模式进行压缩缓存，对重复性推理请求可实现 5-10× 的延迟降低，相当于给模型配备了一个「语义级缓存」。"
-  url: "/glossary/neuralcache/"
-  cat: 模型架构
-
 - term: "Transformer"
-  def: "一种基于自注意力机制的深度神经网络架构，摒弃了传统的循环/卷积结构，完全依赖注意力机制建模序列数据中的长距离依赖关系。2017 年由 Google 提出，奠定了现代大语言模型的基础。"
+  def: "一种基于自注意力机制的深度神经网络架构，2017 年由 Google 提出，摒弃了循环/卷积结构，完全依赖注意力机制建模序列数据中的长距离依赖关系，奠定了现代大语言模型的基础。"
   url: "/glossary/transformer/"
-  cat: 模型架构
+  group: 基础架构
+  order: 1
 
 - term: "Attention"
-  def: "注意力机制。一种让模型在处理每个位置时动态关注输入序列中其他位置的机制，通过加权聚合上下文信息来增强表示能力。核心操作：Q(查询) × K(键) → 权重 → 加权 V(值)。"
+  def: "注意力机制。让模型在处理每个位置时动态关注输入序列中其他位置的机制，通过加权聚合上下文信息来增强表示能力。核心操作：Q(查询) × K(键) → 权重 → 加权 V(值)。"
   url: "/glossary/attention/"
-  cat: 模型架构
+  group: 基础架构
+  order: 2
 
 - term: "Multi-Head Attention"
   def: "多头注意力。将查询、键、值分别投影到多个子空间（头），在每个子空间中独立计算注意力，最后拼接并线性变换。让模型从不同表示子空间同时关注信息。"
   url: "/glossary/multihead-attention/"
-  cat: 模型架构
+  group: 基础架构
+  order: 3
 
 - term: "Positional Encoding"
-  def: "位置编码。由于 Transformer 的自注意力机制本身不具备位置感知能力，需要额外注入位置信息。常用方法：正弦波编码（Sinusoidal）或可学习位置编码。"
+  def: "位置编码。Transformer 的自注意力机制本身不具备位置感知能力，需要额外注入位置信息。常用方法：正弦波编码（Sinusoidal）或可学习位置编码、RoPE。"
   url: "/glossary/positional-encoding/"
-  cat: 模型架构
-
-- term: "ResNet"
-  def: "Residual Network（残差网络）。2015 年由 Kaiming He 等人提出，通过引入「快捷连接」让网络可以轻松学习恒等映射，解决了深层网络的退化问题，使训练上百层的深度网络成为可能。"
-  url: "/glossary/resnet/"
-  cat: 模型架构
-
-- term: "Residual Learning"
-  def: "残差学习。不再直接学习目标映射 H(x)，而是学习残差 F(x)=H(x)-x，原始映射通过 F(x)+x 实现。这一简单的变换让网络能够轻松学习恒等映射，避免了深层网络的退化问题。"
-  url: "/glossary/residual-learning/"
-  cat: 模型架构
-
-- term: "Shortcut Connections"
-  def: "快捷连接（跳跃连接）。将输入直接跳过一些层传递到后面的层，实现了梯度的直接回传。残差网络的核心组件，允许训练非常深的网络而不会出现梯度消失/爆炸。"
-  url: "/glossary/shortcut-connections/"
-  cat: 模型架构
+  group: 基础架构
+  order: 4
 
 - term: "Degradation Problem"
-  def: "退化问题。随着网络深度增加，模型性能出现饱和甚至下降的现象。与过拟合不同，退化问题源于优化困难——深层网络难以学习恒等映射。残差网络正是为此提出。"
+  def: "退化问题。随着网络深度增加，模型性能出现饱和甚至下降的现象。与过拟合不同，退化问题源于优化困难——深层网络难以学习恒等映射。ResNet 正是为此提出。"
   url: "/glossary/degradation-problem/"
-  cat: 模型架构
+  group: 残差网络
+  order: 1
+
+- term: "Residual Learning"
+  def: "残差学习。不再直接学习目标映射 H(x)，而是学习残差 F(x)=H(x)-x，原始映射通过 F(x)+x 实现。让网络只需将权重趋向于 0 就能学习恒等映射，大幅降低优化难度。"
+  url: "/glossary/residual-learning/"
+  group: 残差网络
+  order: 2
+
+- term: "Shortcut Connections"
+  def: "快捷连接（跳跃连接）。将输入直接跳过一些层传递到后面的层，实现梯度直接回传。ResNet 的核心组件，允许训练非常深的网络而不会出现梯度消失/爆炸。"
+  url: "/glossary/shortcut-connections/"
+  group: 残差网络
+  order: 3
+
+- term: "ResNet"
+  def: "Residual Network（残差网络）。2015 年由 Kaiming He 等人提出，通过残差学习 + 快捷连接解决了深层网络的退化问题，成功训练 152 层网络，以 3.57% 错误率赢得 ILSVRC 2015 冠军。"
+  url: "/glossary/resnet/"
+  group: 残差网络
+  order: 4
 
 - term: "VAE"
-  def: "Variational Autoencoder（变分自编码器）。由 Kingma & Welling 于 2014 年提出的生成模型。通过编码器将输入映射到潜在分布的参数（均值、方差），再从该分布采样解码生成新数据。"
+  def: "Variational Autoencoder（变分自编码器）。Kingma & Welling 于 2014 年提出的生成模型，通过编码器将输入映射到潜在分布的参数，再从分布采样解码生成新数据。"
   url: "/glossary/vae/"
-  cat: 模型架构
+  group: 生成模型
+  order: 1
 
 - term: "KL Divergence"
-  def: "Kullback-Leibler 散度（KL 散度）。衡量两个概率分布之间差异的指标。在 VAE 中作为正则化项，强制近似后验分布 q(z|x) 接近先验分布 p(z)，防止潜在空间过度发散。"
+  def: "KL 散度。衡量两个概率分布之间差异的指标。在 VAE 中作为正则化项，强制近似后验分布接近先验分布，防止潜在空间过度发散，让潜在空间有良好的连续性和可插值性。"
   url: "/glossary/kl-divergence/"
-  cat: 训练方法
+  group: 生成模型
+  order: 2
 
 - term: "Reparameterization Trick"
-  def: "重参数化技巧。解决 VAE 训练中从分布采样不可微的问题：将随机采样拆解为确定性变换 + 独立噪声，使梯度可以通过编码器反向传播。具体做法：z = μ + σ × ε, ε ∼ N(0,I)。"
+  def: "重参数化技巧。将 VAE 中从分布采样这一不可微操作拆解为 z = μ + σ × ε（ε ∼ N(0,I)），使梯度可以沿 μ 和 σ 反向传播到编码器，实现端到端训练。"
   url: "/glossary/reparameterization-trick/"
-  cat: 训练方法
+  group: 生成模型
+  order: 3
+
+- term: "MoE"
+  def: "Mixture of Experts（混合专家模型）。将模型分解为多个「专家」子网络，每个 token 仅激活部分专家，在相同计算量下大幅增加模型容量。DeepSeek-V3 总参数量 671B，每 token 仅激活 37B。"
+  url: "/glossary/moe/"
+  group: 混合专家
+  order: 1
+
+- term: "Auxiliary Loss"
+  def: "辅助损失函数。传统 MoE 训练中用于平衡各专家负载的额外损失项，需要调节权重超参数 α。DeepSeek-V3 提出了无辅助损失的动态负载均衡策略，完全去除了 α 调参。"
+  url: "/glossary/auxiliary-loss/"
+  group: 混合专家
+  order: 2
+
+- term: "AdaptiveMoE"
+  def: "自适应 MoE 路由。DeepSeek-V4 改进路由机制：根据输入困难度动态调整激活专家数，简单 token 激活 4 个专家，复杂 token 激活 16 个，平均激活参数降低 20%，复杂任务准确率 +3.2%。"
+  url: "/glossary/adaptivemoe/"
+  group: 混合专家
+  order: 3
+
+- term: "MoDE"
+  def: "Mixture of Depth Experts（深度混合专家）。DeepSeek-V4 的新型架构，沿深度维度分配不同计算密度的专家层：浅层轻量专家快速处理，深层重专家深度推理。总参数 1.2T，每 token 激活 42B。"
+  url: "/glossary/mode/"
+  group: 混合专家
+  order: 4
+
+- term: "DSA"
+  def: "DeepSeek Sparse Attention（稀疏注意力）。两级注意力机制：闪电索引器快速粗筛 + 细粒度 token 精确选择，将注意力复杂度从 O(n²) 降至 O(n·k)，是 Attention 机制向高效方向的演进。"
+  url: "/glossary/dsa/"
+  group: 注意力演进
+  order: 1
+
+- term: "MLA"
+  def: "Multi-head Latent Attention（多头潜在注意力）。将 KV 缓存压缩到低维潜在空间（512维），相比标准 MHA 减少 98.6% 的 KV 缓存占用，是 DeepSeek 长上下文推理的关键技术。"
+  url: "/glossary/mla/"
+  group: 注意力演进
+  order: 2
+
+- term: "HyperMLA"
+  def: "超大规模潜在注意力。MLA 的下一代演进，KV 压缩维度从 512 扩展到 2048，结合层级式潜在编码（局部/全局/语义三级），支持 1M+ token 超长上下文，KV 缓存仅为标准 MHA 的 0.5%。"
+  url: "/glossary/hypermla/"
+  group: 注意力演进
+  order: 3
+
+- term: "FP8"
+  def: "8-bit Floating Point（8 位浮点数格式）。相比 FP16 减少 50% 显存，相比 FP32 减少 75%。DeepSeek-V3 全程使用 FP8 混合精度训练，显著降低训练成本（仅 $5.6M）。"
+  url: "/glossary/fp8/"
+  group: 训练流程
+  order: 1
+
+- term: "SFT"
+  def: "Supervised Fine-Tuning（监督微调）。使用人工标注的高质量指令数据对预训练模型进行微调，使其对齐人类偏好和指令遵循能力。是预训练和强化学习之间的关键桥梁。"
+  url: "/glossary/sft/"
+  group: 训练流程
+  order: 2
+
+- term: "PPO"
+  def: "Proximal Policy Optimization（近端策略优化）。OpenAI 提出的经典强化学习算法，通过裁剪策略更新幅度来保证训练稳定性。在大模型 RLHF 阶段被广泛使用，但需要维护一个 Critic 价值模型。"
+  url: "/glossary/ppo/"
+  group: 训练流程
+  order: 3
+
+- term: "GRPO"
+  def: "Group Relative Policy Optimization（分组相对策略优化）。DeepSeek 自研的强化学习算法，无需依赖 Critic 模型，通过对同一 prompt 的多个 response 分组比较来估计优势函数，大幅简化 RL 训练流程。"
+  url: "/glossary/grpo/"
+  group: 训练流程
+  order: 4
+
+- term: "Self-Play RL"
+  def: "自博弈强化学习。模型通过自我对弈生成训练数据→训练→评估的循环不断提升，无需外部标注。DeepSeek-V4 将其扩展到数学证明、代码合成和科学发现等复杂推理任务。"
+  url: "/glossary/selfplay-rl/"
+  group: 训练流程
+  order: 5
+
+- term: "MTP"
+  def: "Multi-Token Prediction（多 Token 预测）。训练时让模型同时预测多个未来 token（而非仅下一个），强制学习更长距离依赖，推理时无额外开销。在代码生成和数学推理上提升显著。"
+  url: "/glossary/mtp/"
+  group: 训练流程
+  order: 6
+
+- term: "NeuralCache"
+  def: "神经缓存系统。DeepSeek-V4 引入的可学习缓存层，在潜在空间中对高频知识模式进行压缩缓存，对重复性推理请求可实现 5-10× 延迟降低，相当于给模型配备了一个「语义级缓存」。"
+  url: "/glossary/neuralcache/"
+  group: 推理优化
+  order: 1
