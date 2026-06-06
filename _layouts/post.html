@@ -2,61 +2,57 @@
 layout: default
 ---
 
-<div style="display:flex; align-items:flex-start; gap:32px;">
-  <article class="post page-content" style="flex:1; min-width:0;">
-    <div class="post-header">
-      <h1>{{ page.title }}</h1>
-    </div>
+<article class="post page-content">
+  <div class="post-header">
+    <h1>{{ page.title }}</h1>
+  </div>
 
-    <div class="entry">
-      {{ content }}
+  <!-- In-article TOC + Keywords -->
+  <div class="post-toc-bar" id="toc-section">
+    <button class="toc-bar-toggle" id="toc-toggle">
+      <span class="toc-bar-label">📑 目录</span>
+      <span class="toc-bar-icon" id="toc-icon">▶</span>
+    </button>
+    <nav class="toc-bar-list" id="toc" hidden></nav>
+    <div class="toc-bar-keywords" id="keywords-section">
+      <span class="toc-bar-kw-label">🏷️ </span>
+      <span class="keywords-list" id="keywords"></span>
     </div>
+  </div>
 
-    <div class="date">
-      {{ page.date | date: "%Y 年 %m 月 %d 日" }}
-    </div>
+  <div class="entry">
+    {{ content }}
+  </div>
 
-    {% include disqus.html %}
-  </article>
+  <div class="date">
+    {{ page.date | date: "%Y 年 %m 月 %d 日" }}
+  </div>
 
-  <aside class="post-sidebar" id="post-sidebar" style="flex-shrink:0; width:200px; position:sticky; top:90px; max-height:calc(100vh - 110px); overflow-y:auto;">
-    <div class="sidebar-card" id="toc-section">
-      <button class="sidebar-toggle" id="toc-toggle">
-        <span>📑 目录</span>
-        <span class="toggle-icon" id="toc-icon">▶</span>
-      </button>
-      <nav class="toc-list" id="toc" hidden></nav>
-    </div>
-    <div class="sidebar-card" id="keywords-section">
-      <div class="sidebar-card-title">🏷️ 关键词</div>
-      <div class="keywords-list" id="keywords"></div>
-    </div>
-  </aside>
-</div>
+  {% include disqus.html %}
+</article>
 
 <script>
 (function() {
   var entry = document.querySelector('.entry');
   if (!entry) return;
 
-  // ── TOC ──
   var headings = entry.querySelectorAll('h1, h2, h3');
   var toc = document.getElementById('toc');
   var tocSection = document.getElementById('toc-section');
   var tocToggle = document.getElementById('toc-toggle');
   var tocIcon = document.getElementById('toc-icon');
 
+  // ── TOC ──
   if (headings.length >= 2) {
-    var tocHtml = '<ul>';
+    var html = '<ul>';
     headings.forEach(function(h) {
       if (!h.id) {
         h.id = h.textContent.toLowerCase().replace(/[^a-z0-9一-鿿]+/g, '-').replace(/^-|-$/g, '');
       }
-      var level = h.tagName.toLowerCase();
-      tocHtml += '<li class="toc-item toc-' + level + '"><a href="#' + h.id + '">' + h.textContent + '</a></li>';
+      html += '<li class="toc-item toc-' + h.tagName.toLowerCase() + '"><a href="#' + h.id + '">' + h.textContent + '</a></li>';
     });
-    tocHtml += '</ul>';
-    toc.innerHTML = tocHtml;
+    html += '</ul>';
+    toc.innerHTML = html;
 
     var expanded = false;
     tocToggle.addEventListener('click', function() {
@@ -90,34 +86,28 @@ layout: default
 
   // ── Keywords ──
   var refs = entry.querySelectorAll('.gloss-ref');
-  var kwContainer = document.getElementById('keywords');
+  var kw = document.getElementById('keywords');
   var kwSection = document.getElementById('keywords-section');
 
   if (refs.length > 0) {
-    var seen = {}, kwHtml = '';
+    var seen = {};
     refs.forEach(function(ref) {
       var term = ref.dataset.term;
       if (!seen[term]) {
         seen[term] = true;
         var def = ref.dataset.def || '', url = ref.dataset.url || '';
-        kwHtml += '<span class="keyword-tag" data-term="' + encodeURIComponent(term) + '" data-def="' + encodeURIComponent(def) + '" data-url="' + encodeURIComponent(url) + '">' + term + '</span>';
+        kw.innerHTML += '<span class="keyword-tag" data-term="' + encodeURIComponent(term) + '" data-def="' + encodeURIComponent(def) + '" data-url="' + encodeURIComponent(url) + '">' + term + '</span> ';
       }
     });
-    kwContainer.innerHTML = kwHtml;
-    kwContainer.addEventListener('click', function(e) {
+    kw.addEventListener('click', function(e) {
       var tag = e.target.closest('.keyword-tag');
       if (!tag) return;
-      var term = decodeURIComponent(tag.dataset.term);
-      var def = decodeURIComponent(tag.dataset.def);
-      var url = decodeURIComponent(tag.dataset.url);
-      if (window.glossOpen) window.glossOpen(term, def, url);
+      if (window.glossOpen) {
+        window.glossOpen(decodeURIComponent(tag.dataset.term), decodeURIComponent(tag.dataset.def), decodeURIComponent(tag.dataset.url));
+      }
     });
   } else {
     kwSection.style.display = 'none';
-  }
-
-  if (tocSection.style.display === 'none' && kwSection.style.display === 'none') {
-    document.getElementById('post-sidebar').style.display = 'none';
   }
 })();
 </script>
