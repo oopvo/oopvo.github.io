@@ -92,19 +92,25 @@
   def: "DeepSeek Sparse Attention（稀疏注意力）。两级注意力机制：闪电索引器快速粗筛 + 细粒度 token 精确选择，将注意力复杂度从 O(n²) 降至 O(n·k)，是 Attention 机制向高效方向的演进。"
   url: "/glossary/dsa/"
   group: 注意力演进
-  order: 1
+  order: 3
 
 - term: "MLA"
   def: "Multi-head Latent Attention（多头潜在注意力）。将 KV 缓存压缩到低维潜在空间（512维），相比标准 MHA 减少 98.6% 的 KV 缓存占用，是 DeepSeek 长上下文推理的关键技术。"
   url: "/glossary/mla/"
   group: 注意力演进
-  order: 2
+  order: 4
 
 - term: "HyperMLA"
   def: "超大规模潜在注意力。MLA 的下一代演进，KV 压缩维度从 512 扩展到 2048，结合层级式潜在编码（局部/全局/语义三级），支持 1M+ token 超长上下文，KV 缓存仅为标准 MHA 的 0.5%。"
   url: "/glossary/hypermla/"
   group: 注意力演进
-  order: 3
+  order: 4
+
+- term: "GQA"
+  def: "Grouped-Query Attention（分组查询注意力）。MHA 和 MQA 的折中方案：将 Query 头分组，每组共享一个 Key/Value 头。在保持模型质量的同时减少 KV 缓存和访存开销，被 Llama 2/3、Gemma 等模型采用。"
+  url: "/glossary/gqa/"
+  group: 注意力演进
+  order: 2
 
 - term: "FP8"
   def: "8-bit Floating Point（8 位浮点数格式）。相比 FP16 减少 50% 显存，相比 FP32 减少 75%。DeepSeek-V3 全程使用 FP8 混合精度训练，显著降低训练成本（仅 $5.6M）。"
@@ -147,3 +153,33 @@
   url: "/glossary/neuralcache/"
   group: 推理优化
   order: 1
+
+- term: "Llama"
+  def: "Meta 开发的大型语言模型系列（Llama 1/2/3/4）。以开源、高效、高质量著称，引入了 GQA、SwiGLU、RMSNorm 等关键技术创新。Llama 3 405B 是当时最大的开源密集模型，性能匹敌 GPT-4。"
+  url: "/glossary/llama/"
+  group: 基础架构
+  order: 5
+
+- term: "GQA"
+  def: "Grouped-Query Attention（分组查询注意力）。MHA 和 MQA 的折中方案：将 Query 头分组，每组共享一个 Key/Value 头。在保持模型质量的同时减少 KV 缓存和访存开销，被 Llama 2/3、Gemma 等模型采用。"
+  url: "/glossary/gqa/"
+  group: 注意力演进
+  order: 2
+
+- term: "SwiGLU"
+  def: "Swish-Gated Linear Unit（门控线性单元）。LLaMA 使用的激活函数，结合 Swish 和 GLU 的优势：SwiGLU(x) = Swish(xW) ⊗ (xV)。相比 ReLU 能更好捕捉复杂特征，是现代大模型的标配激活函数。"
+  url: "/glossary/swiglu/"
+  group: 基础架构
+  order: 6
+
+- term: "RMSNorm"
+  def: "Root Mean Square Layer Normalization（均方根层归一化）。LayerNorm 的简化变体，仅对输入的均方根进行归一化，省略了均值中心化步骤。计算效率更高，被 Llama、Qwen 等主流模型广泛采用。"
+  url: "/glossary/rmsnorm/"
+  group: 基础架构
+  order: 7
+
+- term: "Qwen"
+  def: "阿里巴巴通义千问大模型系列（Qwen 1/2/2.5/3）。以强大的多语言能力（尤其中英双语）和长上下文处理著称。Qwen3 采用 MoE 架构 + 深度优化的推理引擎，在多项基准上与 GPT-4o 和 DeepSeek-V3 比肩。"
+  url: "/glossary/qwen/"
+  group: 基础架构
+  order: 8
