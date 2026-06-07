@@ -67,6 +67,34 @@ Transformer:  我 ──────┐
 
 当看到"**她**"时，你会自然地关注到"**女孩**"——因为"她"指的就是"女孩"。这就是注意力：**在处理某个位置时，知道应该关注输入的哪些其他位置**。
 
+### 经典例子："it" 指的是什么？
+
+来看 Jay Alammar 的经典例子：
+
+> **"The animal didn't cross the street because it was too tired"**
+> （那只动物没有过马路，因为它太累了）
+
+**问题**：这里的 "it" 指的是 "animal" 还是 "street"？
+
+人类一眼就知道是 "animal"（动物太累了），但机器需要学会这种指代关系。这正是 {% include gloss.html term="Attention" %} 要解决的问题：
+
+```
+当模型处理 "it" 这个位置时：
+
+  注意力权重分布（越高 = 越关注）:
+  
+  The    animal    didn't    cross    the    street    because    it    was    tired
+  0.01    0.72     0.01      0.01    0.01    0.08      0.01      —    0.01   0.14
+  
+  ↑ "it" 把 72% 的注意力放在 "animal" 上
+  ↑ 8% 关注 "street"（也有可能是街太累了？）
+  ↑ 14% 关注 "tired"（"累了"的主体是 animal）
+  
+  → 模型正确理解了 "it" → "animal" 的指代关系 ✅
+```
+
+这种**注意力可视化**是 Transformer 可解释性的重要工具——我们能看到模型在关注什么。
+
 ### 数学形式：QKV 三要素
 
 {% include gloss.html term="Attention" %} 的核心是三个矩阵：**Q（Query）**、**K（Key）**、**V（Value）**。
