@@ -8,6 +8,8 @@ categories: [模型架构]
 
 ## QKV 计算流程可视化
 
+![Scaled Dot-Product Attention 示意图](https://raw.githubusercontent.com/harvardnlp/annotated-transformer/master/images/ModalNet-19.png)
+
 ```
 输入序列: [x₁, x₂, x₃, x₄]
 

@@ -6,6 +6,8 @@ categories: [模型架构]
 
 **Multi-Head Attention**（多头注意力）是 Transformer 的核心组件之一，将查询、键、值分别投影到多个子空间（头），在每个子空间中独立计算注意力，最后拼接起来。
 
+![Multi-Head Attention 示意图](https://raw.githubusercontent.com/harvardnlp/annotated-transformer/master/images/ModalNet-20.png)
+
 ## 工作原理
 
 ```

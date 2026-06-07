@@ -8,6 +8,8 @@ categories: [模型架构]
 
 ## 完整架构图
 
+![Transformer 完整架构（Harvard NLP - 原论文图）](https://github.com/harvardnlp/annotated-transformer/raw/master/images/ModalNet-21.png)
+
 ```
 输出序列
     ▲

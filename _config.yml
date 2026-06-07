@@ -9,7 +9,7 @@ name: Oopvo
 description: Be a Dreamer
 
 # URL of your avatar or profile pic (you could use your GitHub profile pic)
-avatar: ./Headiamge.png
+avatar: /images/Headiamge.png
 
 #
 # Flags below are optional

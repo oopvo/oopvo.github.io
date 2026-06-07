@@ -60,11 +60,13 @@ layout: default
     tocCount.textContent = headings.length + ' 章节';
 
     var expanded = false;
+    var userClosed = false;
     tocToggle.addEventListener('click', function() {
       expanded = !expanded;
       toc.hidden = !expanded;
       tocArrow.textContent = expanded ? '▼' : '▶';
       tocToggle.classList.toggle('open', expanded);
+      if (!expanded) userClosed = true;
     });
 
     var tocItems = toc.querySelectorAll('.toc-i');
@@ -78,7 +80,7 @@ layout: default
         if (!a) return;
         li.classList.toggle('on', a.getAttribute('href') === '#' + current);
       });
-      if (current && !expanded) {
+      if (current && !expanded && !userClosed) {
         expanded = true;
         toc.hidden = false;
         tocArrow.textContent = '▼';

@@ -6,6 +6,8 @@ categories: [模型架构]
 
 **ResNet**（Residual Network，残差网络）由 Kaiming He 等人在 2015 年提出（CVPR 2016 Best Paper），通过引入残差学习解决了深层网络的退化问题。
 
+![ResNet 残差块示意图](https://raw.githubusercontent.com/pytorch/vision/main/docs/source/_static/img/resnet.png)
+
 ## 核心贡献
 
 1. 提出残差学习框架，解决了深层网络的**退化问题**
