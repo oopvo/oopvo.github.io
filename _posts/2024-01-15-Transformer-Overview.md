@@ -54,7 +54,9 @@ Step 3:  权重 = softmax(分数)       归一化为概率分布
 Step 4:  输出 = 权重 × V          加权聚合值
 
 最终公式:
-Attention(Q,K,V) = softmax(QK^T / √d_k) V
+
+$$ \text{Attention}(Q, K, V) = \text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right) V $$
+
 ```
 
 ### 直观理解
@@ -114,6 +116,11 @@ def scaled_dot_product_attention(Q, K, V):
   │
   └──→ 拼接所有头的输出 → 线性变换 → 最终输出
 
+$$
+\text{MultiHead}(Q, K, V) = \text{Concat}(\text{head}_1, \dots, \text{head}_h) W_O
+$$
+
+```
 MultiHead(Q,K,V) = Concat(head₁,...,head_h) W_O
 ```
 
@@ -129,10 +136,12 @@ MultiHead(Q,K,V) = Concat(head₁,...,head_h) W_O
 
 {% include gloss.html term="Transformer" %} 原论文使用不同频率的正弦/余弦函数：
 
-```
-PE(pos, 2i)   = sin(pos / 10000^(2i/d_model))
-PE(pos, 2i+1) = cos(pos / 10000^(2i/d_model))
-```
+$$
+\begin{aligned}
+PE(pos, 2i)   &= \sin\left(\frac{pos}{10000^{2i/d_{\text{model}}}}\right) \\
+PE(pos, 2i+1) &= \cos\left(\frac{pos}{10000^{2i/d_{\text{model}}}}\right)
+\end{aligned}
+$$
 
 - **pos**: 位置索引（0, 1, 2, ...）
 - **i**: 维度索引（0, 1, 2, ..., d_model/2）

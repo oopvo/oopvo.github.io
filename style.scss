@@ -689,6 +689,31 @@ nav {
   line-height: 1.75;
   color: var(--text-secondary);
 
+  // Images inside article content
+  img:not(.hero-avatar) {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    margin: 1.5em auto;
+    border-radius: 10px;
+    box-shadow: var(--shadow-sm);
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+
+    &:hover {
+      box-shadow: var(--shadow-md);
+      transform: scale(1.005);
+    }
+  }
+
+  // KaTeX math display
+  .katex-display {
+    margin: 1.2em 0;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding: 4px 0;
+    -webkit-overflow-scrolling: touch;
+  }
+
   // TOC scroll offset (sticky nav)
   h1, h2, h3, h4 {
     scroll-margin-top: 80px;

@@ -39,30 +39,28 @@ VAE:
 
 衡量生成数据与原始数据的差异。对于图像，通常使用 **二值交叉熵**（BCE）或 **均方误差**（MSE）：
 
-```
-重构损失 = -E[log p(x|z)]
-            ↑ 给定潜在变量 z，生成原始数据 x 的概率
-```
+$$
+\mathcal{L}_{\text{recon}} = -\mathbb{E}_{z \sim q(z|x)}[\log p(x|z)]
+$$
 
 ### 2. {% include gloss.html term="KL Divergence" %} 正则化
 
-{% include gloss.html term="KL Divergence" %} 强制近似后验分布 q(z|x) 接近先验分布 p(z) = N(0, I)：
+{% include gloss.html term="KL Divergence" %} 强制近似后验分布 $q(z|x)$ 接近先验分布 $p(z) = \mathcal{N}(0, I)$：
 
-```
-KL 散度 = KL(q(z|x) || p(z))
-         ↑ 衡量两个分布的差异
+$$
+D_{\text{KL}}(q(z|x) \| p(z)) = \int q(z|x) \log \frac{q(z|x)}{p(z)} dz
+$$
 
-作用:
+**直观作用：**
 - 防止潜在空间过度发散
 - 让潜在空间有良好的结构（连续、可插值）
 - 使采样变得有意义
-```
 
 ### 总损失
 
-```
-L = 重构损失 + KL(q(z|x) || p(z))
-```
+$$
+\mathcal{L} = \underbrace{-\mathbb{E}_{z \sim q(z|x)}[\log p(x|z)]}_{\text{重构损失}} + \underbrace{D_{\text{KL}}(q(z|x) \| p(z))}_{\text{KL 散度}}
+$$
 
 ### 直观理解
 
