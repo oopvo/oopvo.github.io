@@ -9,6 +9,8 @@ related_posts:
 # MLA（Multi-Head Latent Attention，多头潜在注意力）
 KV联合低秩压缩+潜在隐向量缓存+按需解压，做到「推理只存低维隐向量、计算还原完整多头K/V」，KV Cache最高压缩93%+，精度逼近原生MHA，超长上下文标配注意力架构。
 
+![MLA KV 缓存压缩机制]({{ site.baseurl }}/images/MLA.jpeg)
+
 
 
 ## 一、诞生背景：MHA→MQA→GQA→MLA演进逻辑

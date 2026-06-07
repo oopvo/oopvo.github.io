@@ -34,6 +34,8 @@ $$G(x)=\text{Softmax}(x\cdot W_{gate})$$
 $$y=\sum_{选中的i}g_i(x)\cdot f_i(x)$$
 ![MoE架构]({{ site.baseurl }}/images/Moe架构.jpeg)
 
+![分组路由机制]({{ site.baseurl }}/images/DSmoE.png)
+
 ## 三、完整前向流程（单个Token经过MoE）
 1. **输入**：Attention层输出的Token特征向量；
 2. **路由打分**：轻量Gate计算所有专家匹配概率；

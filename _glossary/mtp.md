@@ -9,6 +9,8 @@ related_posts:
 # MTP（Multi-Token Prediction）
 **MTP是在主干Transformer尾部串联多层轻量预测模块，训练同时预测$t+1、t+2…t+n$连续多Token；训练端稠密监督提升推理/长文本能力，推理端原生充当Speculative Decoding（投机解码）草稿模型，单次主模型前向校验多Token，生成提速1.8~3倍，DeepSeek-V3/R1、Gemma4、Qwen3标配，常和MLA搭配使用**。
 
+![MTP 多 Token 预测示意图]({{ site.baseurl }}/images/MTP.jpeg)
+
 
 
 ## 一、诞生背景：传统NTP问题

@@ -15,13 +15,27 @@ categories: [模型架构]
 ## 基本单元
 
 ```
-传统网络:        x → [Conv] → [ReLU] → [Conv] → H(x)
-                                                  ▲ 直接学习目标映射
+传统网络（Plain）:
+  x → [Conv] → [ReLU] → [Conv] → H(x)
+  ↑ 直接学习目标映射 H(x)
 
-残差网络:        x ──┬────────────────────→ ⊕ → ReLU → F(x) + x
-                     │                          ▲
-                     └──→ [Conv] → [ReLU] → [Conv] ┘
-                                                  ▲ 学习残差 F(x) = H(x) - x
+残差网络（ResNet）:
+  x ──┬─────────────────────→ ⊕ → ReLU → 输出
+      │                       ↑
+      └──→ [Conv] → [ReLU] → [Conv] ┘
+            F(x) = H(x) - x
+
+  输出 = F(x) + x
+
+  梯度回传路径:
+  损失 L
+    │
+  ∂L/∂x = ∂L/∂y · (1 + ∂F/∂x)
+    │         ↑ 梯度直接走快捷连接！永不消失
+    ▼
+  浅层收到完整梯度 ✅
 ```
+
+**梯度分析**：反向传播时，损失对输入的偏导包含一个常数项 1（来自快捷连接），即使 ∂F/∂x 很小（权重层梯度消失），梯度依然可以直接流回浅层。
 
 {% include gloss.html term="Residual Learning" %} 和 {% include gloss.html term="Shortcut Connections" %} 是 ResNet 的两大关键。
