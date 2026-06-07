@@ -177,3 +177,27 @@
   url: "/glossary/qwen/"
   group: 基础架构
   order: 8
+
+- term: "GPT"
+  def: "Generative Pre-trained Transformer（生成式预训练 Transformer），OpenAI 开发的大语言模型系列（GPT-1/2/3/4）。核心创新是「自回归语言建模 + 大规模预训练 + 可迁移微调」。GPT-1（2018）首次证明了 Transformer 解码器在大规模文本预训练上的有效性；GPT-2（2019）展示了零样本迁移能力；GPT-3（2020）1750 亿参数开创了大模型时代；GPT-4（2023）多模态能力达到当时顶尖水平。GPT 系列的「解码器-only」架构已成为现代大语言模型的标准范式。"
+  url: "/glossary/gpt/"
+  group: 基础架构
+  order: 9
+
+- term: "BERT"
+  def: "Bidirectional Encoder Representations from Transformers（双向编码器表示），Google 于 2018 年提出的预训练语言模型。与 GPT 的自回归方式不同，BERT 使用「掩码语言模型（MLM）+ 下一句预测（NSP）」进行双向预训练，在 11 项 NLP 基准上取得 SOTA。BERT 的「编码器-only + 双向注意力」架构深刻影响了后续的模型设计，开启了「预训练 + 微调」范式在 NLP 领域的全面应用。"
+  url: "/glossary/bert/"
+  group: 基础架构
+  order: 10
+
+- term: "MLM"
+  def: "Masked Language Model（掩码语言模型），BERT 的核心预训练任务。随机将输入文本中 15% 的 token 替换为 [MASK] 标记，然后让模型预测被掩码的原始 token。与 GPT 的自回归（从左到右逐个预测）不同，MLM 可以同时利用被掩码 token 的左右两侧上下文进行预测，实现真正的双向理解。MLM 让 BERT 在自然语言理解任务上表现优异。"
+  url: "/glossary/mlm/"
+  group: 基础架构
+  order: 11
+
+- term: "Autoregressive"
+  def: "自回归模型，一种序列生成方式。在语言模型中，自回归指从左到右逐个生成 token，每个新 token 只依赖之前已生成的所有 token。公式：p(x) = Π p(x_t | x_{<t})。GPT 系列采用这一方式，优点是生成质量高、适合文本生成任务；缺点是只能利用单向上下文，在理解任务上不如 BERT 的双向模型。现代模型（如 GPT-4、Llama）均为自回归解码器架构。"
+  url: "/glossary/autoregressive/"
+  group: 基础架构
+  order: 12
