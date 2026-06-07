@@ -6,6 +6,8 @@ categories: [模型架构]
 
 **VAE**（Variational Autoencoder，变分自编码器）由 Kingma & Welling 于 2014 年提出，是一种生成模型。
 
+![VAE 架构示意图](https://raw.githubusercontent.com/pclubiitk/model-zoo/master/generative_models/VAEGAN_PyTorch/assets/vae.png)
+
 ## 架构
 
 ```
