@@ -20,7 +20,7 @@ date: 2026-06-07
 
 ---
 
-## 二、{% include gloss.html term="Autoregressive"} 生成方式
+## 二、{% include gloss.html term="Autoregressive" %} 生成方式
 
 {% include gloss.html term="GPT" %} 使用**自回归**方式生成文本：逐一预测下一个 token。
 
