@@ -1,6 +1,7 @@
 ---
 layout: post
 title: Transformer 架构详解（未完善）
+date: 2025-12-15
 categories: deep-learning
 tags: [Transformer, Attention, NLP, 入门]
 ---

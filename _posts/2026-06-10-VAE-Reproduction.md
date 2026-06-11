@@ -1,6 +1,7 @@
 ---
 layout: post
 title: VAE 变分自编码器详解
+date: 2026-06-10
 categories: deep-learning
 tags: [VAE, PyTorch, 生成模型,]
 ---

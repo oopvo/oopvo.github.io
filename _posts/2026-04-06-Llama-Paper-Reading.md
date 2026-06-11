@@ -1,6 +1,7 @@
 ---
 layout: post
 title: Llama 系列技术报告精读（未完善）
+date: 2026-04-06
 categories: paper-reading
 tags: [Llama, GQA, SwiGLU, 开源模型, 大模型]
 date: 2026-06-06

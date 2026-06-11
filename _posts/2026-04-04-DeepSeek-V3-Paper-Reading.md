@@ -1,6 +1,7 @@
 ---
 layout: post
 title: DeepSeek-V3 技术报告精读
+date: 2026-04-04
 categories: paper-reading
 tags: [DeepSeek, MoE, MLA, 大模型, 推理优化]
 date: 2026-06-04

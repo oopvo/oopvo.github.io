@@ -1,6 +1,7 @@
 ---
 layout: post
 title: GPT 系列精读
+date: 2026-03-07
 categories: paper-reading
 tags: [GPT, Autoregressive, Transformer, 大模型, 入门]
 date: 2026-06-07

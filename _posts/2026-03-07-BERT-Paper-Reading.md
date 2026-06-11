@@ -1,6 +1,7 @@
 ---
 layout: post
 title: BERT 论文精读
+date: 2026-03-07
 categories: paper-reading
 tags: [BERT, MLM, 预训练, 自然语言理解]
 date: 2026-06-07
