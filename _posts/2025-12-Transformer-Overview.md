@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Transformer 架构详解：从零看懂 Attention Is All You Need
+title: Transformer 架构详解（未完善）
 categories: deep-learning
 tags: [Transformer, Attention, NLP, 入门]
 ---

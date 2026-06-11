@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 论文精读 — Deep Residual Learning for Image Recognition
+title: 论文精读 — Deep Residual Learning for Image Recognition（未完善）
 categories: paper-reading
 tags: [ResNet, CV, 残差网络, 入门]
 ---

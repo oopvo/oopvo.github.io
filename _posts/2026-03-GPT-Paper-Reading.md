@@ -1,6 +1,6 @@
 ---
 layout: post
-title: GPT 系列精读：从 GPT-1 到 GPT-4 的进化之路
+title: GPT 系列精读
 categories: paper-reading
 tags: [GPT, Autoregressive, Transformer, 大模型, 入门]
 date: 2026-06-07

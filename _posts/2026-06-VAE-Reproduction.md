@@ -1,8 +1,8 @@
 ---
 layout: post
-title: VAE 变分自编码器详解：从零推导到代码实现
-categories: paper-reproduction
-tags: [VAE, PyTorch, 生成模型, 入门]
+title: VAE 变分自编码器详解
+categories: deep-learning
+tags: [VAE, PyTorch, 生成模型,]
 ---
 
 > VAE（Variational Autoencoder）变分自编码器，是生成模型的基石之一

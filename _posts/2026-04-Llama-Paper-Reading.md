@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Llama 系列技术报告精读：Meta 的开源大模型之路
+title: Llama 系列技术报告精读（未完善）
 categories: paper-reading
 tags: [Llama, GQA, SwiGLU, 开源模型, 大模型]
 date: 2026-06-06

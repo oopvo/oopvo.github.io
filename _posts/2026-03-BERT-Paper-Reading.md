@@ -1,6 +1,6 @@
 ---
 layout: post
-title: BERT 论文精读：双向预训练改变 NLP
+title: BERT 论文精读
 categories: paper-reading
 tags: [BERT, MLM, 预训练, 自然语言理解]
 date: 2026-06-07

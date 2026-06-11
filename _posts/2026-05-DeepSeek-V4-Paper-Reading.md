@@ -1,6 +1,6 @@
 ---
 layout: post
-title: DeepSeek-V4 技术报告精读：迈向通用人工智能的架构革命
+title: DeepSeek-V4 技术报告精读（未完善）
 categories: paper-reading
 tags: [DeepSeek, MoDE, HyperMLA, SelfPlay, 大模型, 推理优化]
 date: 2026-06-05
