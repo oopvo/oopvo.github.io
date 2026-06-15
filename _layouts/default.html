@@ -12,8 +12,43 @@
     <link rel="stylesheet" type="text/css" href="{{ site.baseurl }}/style.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" />
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
-      onload="renderMathInElement(document.body, {delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false},{left:'\\(',right:'\\)',display:false}]});"></script>
+    <script>
+      // Render kramdown math_engine:mathjax output (<script type="math/tex">) with KaTeX
+      (function() {
+        var mathLoaded = function() { return typeof katex !== 'undefined'; };
+
+        var renderAll = function() {
+          if (!mathLoaded()) { setTimeout(renderAll, 100); return; }
+
+          // Inline math: <script type="math/tex">...</script>
+          document.querySelectorAll('script[type="math/tex"]').forEach(function(script) {
+            if (script.getAttribute('type') === 'math/tex; mode=display') return;
+            var tex = script.textContent || script.innerText;
+            if (!tex || !tex.trim()) return;
+            var span = document.createElement('span');
+            try { katex.render(tex.trim(), span, {displayMode: false}); }
+            catch (e) { span.textContent = tex; }
+            script.parentNode.replaceChild(span, script);
+          });
+
+          // Display math: <script type="math/tex; mode=display">...</script>
+          document.querySelectorAll('script[type="math/tex; mode=display"]').forEach(function(script) {
+            var tex = script.textContent || script.innerText;
+            if (!tex || !tex.trim()) return;
+            var div = document.createElement('div');
+            try { katex.render(tex.trim(), div, {displayMode: true}); }
+            catch (e) { div.textContent = tex; }
+            script.parentNode.replaceChild(div, script);
+          });
+        };
+
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', renderAll);
+        } else {
+          renderAll();
+        }
+      })();
+    </script>
     <link rel="alternate" type="application/rss+xml" title="{{ site.name }} - {{ site.description }}" href="{{ site.baseurl }}/feed.xml" />
   </head>
 
