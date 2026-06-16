@@ -20,7 +20,7 @@
         var renderAll = function() {
           if (!mathLoaded()) { setTimeout(renderAll, 100); return; }
 
-          // Inline math: <script type="math/tex">...</script>
+          // Inline math
           document.querySelectorAll('script[type="math/tex"]').forEach(function(script) {
             if (script.getAttribute('type') === 'math/tex; mode=display') return;
             var tex = script.textContent || script.innerText;
@@ -31,7 +31,7 @@
             script.parentNode.replaceChild(span, script);
           });
 
-          // Display math: <script type="math/tex; mode=display">...</script>
+          // Display math
           document.querySelectorAll('script[type="math/tex; mode=display"]').forEach(function(script) {
             var tex = script.textContent || script.innerText;
             if (!tex || !tex.trim()) return;

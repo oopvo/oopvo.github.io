@@ -160,7 +160,7 @@ KL 散度小 → q(z|x) 接近 N(0, I)
 
 ### 3. 总损失：两个目标的平衡
 
-$$ \mathcal{L} = \underbrace{-\mathbb{E}_{z \sim q(z|x)}[\log p(x|z)]}_{\text{重构损失（逼真性）}} + \underbrace{D_{\text{KL}}(q(z|x) \| p(z))}_{\text{KL 散度（可生成性）}} $$
+$$ \mathcal{L} = \underbrace{-\mathbb{E}_{z \sim q(z|x)}[\log p(x|z)]}_{\text{重构损失（逼真性）}} + \underbrace{D_{\text{KL}}(q(z|x) \| p(z))}_{\text{KL 散度（可生成性）}} $$  
 
 ```
 平衡关系：
