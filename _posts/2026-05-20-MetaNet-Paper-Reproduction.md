@@ -2,7 +2,7 @@
 layout: post
 title: 一个基于元数据门控机制的论文复刻与改善
 date: 2026-05-20
-categories: [deep-learning, medical-imaging]
+categories: [deep-learning, medical-imaging, paper-reproduction]
 tags: [MetaNet, ISIC2018, 皮肤病变分类, 元数据融合, SENet154, 论文复刻]
 ---
 
